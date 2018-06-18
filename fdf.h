@@ -17,6 +17,8 @@ typedef struct	s_struct
 {
 	void 		*mlx;
 	void 		*window;
+	void 		*map;
+
 }				t_struct;
 
 typedef	struct	s_struct
@@ -25,7 +27,6 @@ typedef	struct	s_struct
 	int	y1;
 	int x2;
 	int y2
-	void *map;
 }				t_line
 
 #endif
