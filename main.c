@@ -58,6 +58,8 @@ int draw_line(t_line *line)
 	sx = line->x1 < line->x2 ? 1 : -1;
 	sy = line->y1 < line->y2 ? 1 : -1;
 	err = (dx > dy) ? dx/2 : -dy/2;
+	if (line->x1 == line->x2 && line->y1 == line->y2)
+		return (-1);
 	while (1)
 	{
 		mlx_pixel_put((line->box->mlx), (line->box->window), line->x1, line->y1, 0xFFFFFF);
@@ -81,42 +83,42 @@ int draw_line(t_line *line)
 	return (0);
 }
 
-int clock(t_line *line)
+void draw_circle(t_line *line)
 {
-	int points;
+	mlx_pixel_put((line->box->mlx), (line->box->window), line->x1 + line->x2, line->y1 + line->y2, 0xFFFFFF);
+	mlx_pixel_put((line->box->mlx), (line->box->window), line->x1 - line->x2, line->y1 + line->y2, 0xFFFFFF);
+	mlx_pixel_put((line->box->mlx), (line->box->window), line->x1 + line->x2, line->y1 - line->y2, 0xFFFFFF);
+	mlx_pixel_put((line->box->mlx), (line->box->window), line->x1 - line->x2, line->y1 - line->y2, 0xFFFFFF);
+	mlx_pixel_put((line->box->mlx), (line->box->window), line->x1 + line->y2, line->y1 + line->x2, 0xFFFFFF);
+	mlx_pixel_put((line->box->mlx), (line->box->window), line->x1 - line->y2, line->y1 + line->x2, 0xFFFFFF);
+	mlx_pixel_put((line->box->mlx), (line->box->window), line->x1 + line->y2, line->y1 - line->x2, 0xFFFFFF);
+	mlx_pixel_put((line->box->mlx), (line->box->window), line->x1 - line->y2, line->y1 - line->x2, 0xFFFFFF);
+}
+
+int circle(t_line *line)
+{
+	int d;
 	int x;
 	int y;
 
-	x = line->x1;
-	y = line->y1;
-	points = 2000;
-	while (points > 1500)
+	line->x2 = 0;
+	line->y2 = 100;
+	x = line->x2;
+	y = line->y2;
+	d = 3 - 2*(line->y2);
+	while (line->x2 < line->y2)
 	{
-		draw_line(line);
-		points--;
-	 	line->x1 = x++;
-	 	line->y1 = 0;
-	}
-	while (points > 1000)
-	{
-		draw_line(line);
-		points--;
-		line->y1 = y++;
-		line->x1 = x;
-	}
-	while (points > 500)
-	{
-		draw_line(line);
-		points--;
-		line->x1 = x--;
-		line->y1 = y;
-	}
-	while (points)
-	{
-		draw_line(line);
-		points--;
-		line->y1 = y--;
-		line->x1 = x;
+		draw_circle(line);
+		line->x2 += 1;
+		if (d < 0)
+			d += 4*(line->x2) + 6;
+		else
+		{
+			line->y2 -= 1;
+			d = d + 4*(line->x2 - line->y2) + 10;
+		}
+		draw_circle(line);
+		line->x2 += 1;
 	}
 	return (0);
 }
@@ -127,13 +129,14 @@ int parabola_w_lines(t_line *line)
 	int y;
 
 	x = line->x1;
-	while (line->y1 < 500)
+	while (line->y1 > 0)
 	{
+		printf("Hello");
 		y = line->y1;
 		draw_line(line);
 		line->x1 = x;
-		line->y1 = y + 20;
-		line->x2 += 20;
+		line->y1 = y - 5;
+		line->x2 += 5;
 		mlx_clear_window((line->box->mlx), (line->box->window));
 	}
 	return (0);
@@ -162,11 +165,11 @@ int	main(void)
 	win->window = mlx_new_window ((win->mlx) , width, height, "New Window" );
 	line->box = win;
 	line->x1 = 0;
-	line->x2 = 10;
 	line->y1 = 0;
-	line->y2 = 10;
+	line->x2 = 0;
+	line->y2 = 100;
 	origin_factor(line, width, height);
-	mlx_loop_hook((win->mlx), &(clock), (void *)line);	
+	mlx_loop_hook((win->mlx), &(circle), (void *)line);	
 	//mlx_key_hook ( win->window, &draw_line, (void *)win);
 	mlx_loop (win->mlx);
 	return (0);
