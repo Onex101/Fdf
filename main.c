@@ -24,15 +24,7 @@ void project(t_vertex *vertex)
 	vertex->screen.y = FOCAL_DISTANCE * vertex->aligned.y / vertex->aligned.z + YOrigin;
 }
 
-int main(void)
-{
-	float matrix[4][4];
-	float mat1[4][4];
-	float mat2[4][4];
-
-}
-
-t_vector *new_vector(float x, float y, float z)
+t_vector *new_vector(double x, double y, double z)
 {
 	t_vector *vector;
 	vector = (t_vector *)malloc(sizeof(t_vector));
@@ -41,12 +33,13 @@ t_vector *new_vector(float x, float y, float z)
 	vector->x = x;
 	vector->y = y;
 	vector->z = z;
+	vector->len = sqrt(x*x + y*y + z*z);
 	return (vector);
 }
 
-t_vertex *new_vertex(float x, float y, float z)
+t_vertex *new_vertex(double x, double y, double z)
 {
-	t_vertex *vector;
+	t_vertex *vertex;
 	vertex = (t_vertex *)malloc(sizeof(t_vertex));
 	if (!vertex)
 		return (NULL);
@@ -54,4 +47,29 @@ t_vertex *new_vertex(float x, float y, float z)
 	if (!vertex->local)
 		return (NULL);
 	return (vertex);
+}
+
+void orgin_factor(t_vector *vector, double width, double height)
+{
+	vector->x = (vector->x + 1) * (width / 2);
+	vector->y = (-vector->y * 1) * (height / 2);
+}
+
+void cube(double size)
+{
+	void **vertices;
+	double side;
+
+	vertices = (void **)malloc(sizeof(t_vertex *) * 8);
+	if (!vertices)
+		return ;
+	side = size / 2;
+	vertices[0] = new_vertex(-size, -size, -size);
+	vertices[1] = new_vertex(size, -size, -size);
+	vertices[2] = new_vertex(-size, size, -size);
+	vertices[3] = new_vertex(size, size, -size);
+	vertices[4] = new_vertex(-size, -size, size);
+	vertices[5] = new_vertex(size, -size, size);
+	vertices[6] = new_vertex(-size, size, size);
+	vertices[7] = new_vertex(size, size, -size);
 }

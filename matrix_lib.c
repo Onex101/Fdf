@@ -1,4 +1,8 @@
-void	matrix_cpy(float source[4][4], float dest[4][4])
+
+double mat1[4][4];
+double mat2[4][4];
+
+void	matrix_cpy(double source[4][4], double dest[4][4])
 {
 	int i;
 	int j;
@@ -12,7 +16,7 @@ void	matrix_cpy(float source[4][4], float dest[4][4])
 	}
 }
 
-void	matrix_mult(float mat1[4][4], float mat2[4][4], float dest[4][4])
+void	matrix_mult(double mat1[4][4], double mat2[4][4], double dest[4][4])
 {
 	int i;
 	int j;
@@ -29,7 +33,7 @@ void	matrix_mult(float mat1[4][4], float mat2[4][4], float dest[4][4])
 	}
 }
 
-void	matrix_vec_mult(t_vector *source, float mat[4][4], t_vector *dest)
+void	matrix_vec_mult(t_vector *source, double mat[4][4], t_vector *dest)
 {
 	dest->x =	source->x * mat[0][0]+
 				source->y * mat[1][0]+
@@ -45,7 +49,7 @@ void	matrix_vec_mult(t_vector *source, float mat[4][4], t_vector *dest)
 							mat[3][2];
 }
 
-void	matrix_identity(float mat[4][4])
+void	matrix_identity(double mat[4][4])
 {
 	int i;
 	int j;
@@ -66,9 +70,9 @@ void	matrix_identity(float mat[4][4])
 	}
 }
 
-void	matrix_translate(float mat[4][4], float tx, float ty, float tz)
+void	matrix_translate(double mat[4][4], double tx, double ty, double tz)
 {
-	float tmat[4][4]
+	double tmat[4][4]
 	matrix_identity(smat);
 	tmat[3][0]=tx;
 	tmat[3][1]=ty;
@@ -77,9 +81,9 @@ void	matrix_translate(float mat[4][4], float tx, float ty, float tz)
 	matrix_cpy(mat1, matrix);
 }
 
-void	matrix_scale(float mat1[4][4], float tx, float ty, float tz)
+void	matrix_scale(double mat1[4][4], double tx, double ty, double tz)
 {
-	float tmat[4][4]
+	double tmat[4][4]
 	matrix_identity(smat);
 	tmat[3][0]=tx;
 	tmat[3][1]=ty;
@@ -88,11 +92,11 @@ void	matrix_scale(float mat1[4][4], float tx, float ty, float tz)
 	matrix_cpy(mat1, matrix);
 }
 
-void matrix_rotate(float matrix[4][4],int ax,int ay,int az)
+void matrix_rotate(double matrix[4][4],int ax,int ay,int az)
 {
-	float xmat[4][4];
-	float ymat[4][4];
-	float zmat[4][4];
+	double xmat[4][4];
+	double ymat[4][4];
+	double zmat[4][4];
 
 	matrix_identity(xmat);
 	xmat[1][1] = COS(ax);

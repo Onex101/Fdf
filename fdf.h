@@ -13,7 +13,7 @@
 #ifndef FDF_H
 # define FDF_H
 
-#define FOCAL_DISTANCE 200
+#define FOCAL_DISTANCE 200 // 80 - 200
 
 typedef struct	s_line
 {
@@ -34,5 +34,13 @@ typedef struct s_vertex
 	t_vector *world;
 	t_vector *aligned
 }				t_vertex;
+
+void	matrix_cpy(float source[4][4], float dest[4][4]);
+void	matrix_mult(float mat1[4][4], float mat2[4][4], float dest[4][4]);
+void	matrix_vec_mult(t_vector *source, float mat[4][4], t_vector *dest);
+void	matrix_identity(float mat[4][4]);
+void	matrix_translate(float mat[4][4], float tx, float ty, float tz);
+void	matrix_scale(float mat1[4][4], float tx, float ty, float tz);
+void	matrix_rotate(float matrix[4][4],int ax,int ay,int az);
 
 #endif
