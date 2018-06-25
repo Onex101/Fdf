@@ -6,15 +6,11 @@
 /*   By: xrhoda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 12:47:32 by xrhoda            #+#    #+#             */
-/*   Updated: 2018/06/19 06:52:49 by xrhoda           ###   ########.fr       */
+/*   Updated: 2018/06/25 07:47:12 by xrhoda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <mlx.h>
 #include "fdf.h"
-#include <stdio.h>
 
 void project(t_vertex *vertex)
 {
@@ -22,31 +18,6 @@ void project(t_vertex *vertex)
 		vertex->aligned.z = 1;
 	vertex->screen.x = FOCAL_DISTANCE * vertex->aligned.x / vertex->aligned.z + XOrigin;
 	vertex->screen.y = FOCAL_DISTANCE * vertex->aligned.y / vertex->aligned.z + YOrigin;
-}
-
-t_vector *new_vector(double x, double y, double z)
-{
-	t_vector *vector;
-	vector = (t_vector *)malloc(sizeof(t_vector));
-	if (!vector)
-		return (NULL);
-	vector->x = x;
-	vector->y = y;
-	vector->z = z;
-	vector->len = sqrt(x*x + y*y + z*z);
-	return (vector);
-}
-
-t_vertex *new_vertex(double x, double y, double z)
-{
-	t_vertex *vertex;
-	vertex = (t_vertex *)malloc(sizeof(t_vertex));
-	if (!vertex)
-		return (NULL);
-	vertex->local = new_vector(x, y, z);
-	if (!vertex->local)
-		return (NULL);
-	return (vertex);
 }
 
 void orgin_factor(t_vector *vector, double width, double height)
@@ -58,6 +29,7 @@ void orgin_factor(t_vector *vector, double width, double height)
 void cube(double size)
 {
 	void **vertices;
+	int *index;
 	double side;
 
 	vertices = (void **)malloc(sizeof(t_vertex *) * 8);
@@ -72,4 +44,26 @@ void cube(double size)
 	vertices[5] = new_vertex(size, -size, size);
 	vertices[6] = new_vertex(-size, size, size);
 	vertices[7] = new_vertex(size, size, -size);
+
+	index = (int *)malloc(25);
+	index[25] = '\0';
+	index = {0,1,1,3,3,2,2,0,0,4,1,5,3,7,2,6,4,5,5,7,6,6,4};
+}
+
+int	main(void)
+{
+	t_struct	*win;
+	t_line		*line;
+
+	win = (t_struct *)malloc(sizeof(t_struct));
+	line = (t_line *)(malloc)(sizeof(t_line));
+	if (!win || !line)
+		return (-1);
+	win->mlx = mlx_init();
+	win->window = mlx_new_window ((win->mlx) , 500, 500, "New Window" );
+
+	mlx_loop_hook((win->mlx), &(draw_line), (void *)win);	
+	//mlx_key_hook ( win->window, &draw_line, (void *)win);
+	mlx_loop (win->mlx);
+	return (0);
 }

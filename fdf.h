@@ -13,34 +13,51 @@
 #ifndef FDF_H
 # define FDF_H
 
-#define FOCAL_DISTANCE 200 // 80 - 200
+#include <unistd.h>
+#include <stdlib.h>
+#include <mlx.h>
+
+#define FOCAL_DISTANCE 200
 
 typedef struct	s_line
 {
-	float x;
-	float y;
+	t_vector	*vec1;
+	t_vector	*vec2;
+	t_window	*window;
 }				t_line;
 
 typedef	struct	s_vector
 {
-	float 		x;
-	float		y;
-	float 		x;
+	double 		x;
+	double		y;
+	double		z;
 }				t_vector;
 
-typedef struct s_vertex
+typedef struct	s_vertex
 {
-	t_vector *local;
-	t_vector *world;
-	t_vector *aligned
+	t_vector	*orignal;
+	t_vector	*screen;
+	t_vector	*aligned;
 }				t_vertex;
 
-void	matrix_cpy(float source[4][4], float dest[4][4]);
-void	matrix_mult(float mat1[4][4], float mat2[4][4], float dest[4][4]);
-void	matrix_vec_mult(t_vector *source, float mat[4][4], t_vector *dest);
-void	matrix_identity(float mat[4][4]);
-void	matrix_translate(float mat[4][4], float tx, float ty, float tz);
-void	matrix_scale(float mat1[4][4], float tx, float ty, float tz);
-void	matrix_rotate(float matrix[4][4],int ax,int ay,int az);
+typedef struct	s_vlist
+{
+	t_vector	**vertices_list;
+	int			*index;
+}				t_vlist;
+
+typedef struct	s_window
+{
+	void		*mlx;
+	void		*win;
+}				t_window;
+
+void	matrix_cpy(double source[4][4], double dest[4][4]);
+void	matrix_mult(double mat1[4][4], double mat2[4][4], double dest[4][4]);
+void	matrix_vec_mult(t_vector *source, double mat[4][4], t_vector *dest);
+void	matrix_identity(double mat[4][4]);
+void	matrix_translate(double mat[4][4], double tx, double ty, double tz);
+void	matrix_scale(double mat1[4][4], double tx, double ty, double tz);
+void	matrix_rotate(double matrix[4][4],int ax,int ay,int az);
 
 #endif
