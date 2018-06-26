@@ -19,12 +19,11 @@
 
 #define FOCAL_DISTANCE 200
 
-typedef struct	s_line
+typedef struct		s_vlst
 {
-	t_vector	*vec1;
-	t_vector	*vec2;
-	t_window	*window;
-}				t_line;
+	struct t_vertex	*vertex;
+ 	int				index;
+}					t_vlst;
 
 typedef	struct	s_vector
 {
@@ -33,31 +32,35 @@ typedef	struct	s_vector
 	double		z;
 }				t_vector;
 
-typedef struct	s_vertex
-{
-	t_vector	*orignal;
-	t_vector	*screen;
-	t_vector	*aligned;
-}				t_vertex;
-
-typedef struct	s_vlist
-{
-	t_vector	**vertices_list;
-	int			*index;
-}				t_vlist;
-
 typedef struct	s_window
 {
 	void		*mlx;
 	void		*win;
 }				t_window;
 
-void	matrix_cpy(double source[4][4], double dest[4][4]);
-void	matrix_mult(double mat1[4][4], double mat2[4][4], double dest[4][4]);
-void	matrix_vec_mult(t_vector *source, double mat[4][4], t_vector *dest);
-void	matrix_identity(double mat[4][4]);
-void	matrix_translate(double mat[4][4], double tx, double ty, double tz);
-void	matrix_scale(double mat1[4][4], double tx, double ty, double tz);
-void	matrix_rotate(double matrix[4][4],int ax,int ay,int az);
+typedef struct	s_line
+{
+	struct t_vector	*vec1;
+	struct t_vector	*vec2;
+	struct t_window	*window;
+}					t_line;
+
+typedef struct		s_vertex
+{
+	struct t_vector	*orignal;
+	struct t_vector	*screen;
+	struct t_vector	*aligned;
+}					t_vertex;
+
+void		matrix_cpy(double source[4][4], double dest[4][4]);
+void		matrix_mult(double mat1[4][4], double mat2[4][4], double dest[4][4]);
+void		matrix_vec_mult(t_vector *source, double mat[4][4], t_vector *dest);
+void		matrix_identity(double mat[4][4]);
+void		matrix_translate(double mat[4][4], double tx, double ty, double tz);
+void		matrix_scale(double mat1[4][4], double tx, double ty, double tz);
+void		matrix_rotate(double matrix[4][4],int ax,int ay,int az);
+
+// t_arrlst	*ft_alstnew(char **content, size_t i);
+// void		ft_arrlst_addend(t_arrlst **alst, t_arrlst *new);
 
 #endif

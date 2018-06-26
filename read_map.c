@@ -10,59 +10,97 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void ft_lstaddend(t_list **alst, t_list *new) // Needs to go into libft
-{
-	t_list *tmp;
+#include <fcntl.h>
+#include "./libft/includes/libft.h"
+#include "fdf.h"
 
+int ft_lstlen(t_list **alst)
+{
+	t_list	*tmp;
+	int		i;
 	tmp = *alst;
-	if (new)
+
+	while (tmp)
 	{
-		while (tmp)
-			tmp = tmp->next
-		tmp->next = new;
+		tmp = tmp->next;
+		i++;
+	}
+	return (i);
+}
+
+void ft_poparr(char *str, t_vlst **vlst, int row, int col)
+{
+	char **arr;
+	int i;
+	int j;
+	int k;
+
+	arr = ft_strsplit(str);
+	vlst = (t_vlst **)malloc(sizeof(t_vlst*) * row);
+	*vlst = (t_vlst *)malloc(sizeof(t_vlst) *	col);
+	k = 0;
+	i = 0;
+	while (i < col)
+	{
+		j = 0;
+		while (j < row && arr[k])
+		{
+			vlst[i][j] = 
+		}
 	}
 }
 
-int **read_map(char **argc)
+t_vlst **read_map(char *argv)
 {
-	int fd;
-	char *line;
-	char *c;
-	int i;
-	int j;
-	t_list *row;
-	t_list *arr;
+	int		fd;
+	char	*line;
+	int		count;
+	int		len;
+	char	*str;
+	char	*tmp;
+	t_vlst	**vlst;
 
-	if (!argc)
-		return (-1);
-	fd = open(argc, O_RDONLY);
+	if (!argv)
+		return (NULL);
+	fd = open(argv, O_RDONLY);
 	line = (char *)malloc(sizeof(char));
 	if (!line)
-		return (-1);
-	i = 0;
+		return (NULL);
+	vlst = NULL;
+	str = ft_strnew(1);
+	count = 0;
 	while (get_next_line(fd, &line))
 	{
-		j = 0;
-		while(*line)
-		{
-			c = line;
-			while (ft_isdigit(*c))
-				c++
-			if(ft_isdigit(*line))
-			{
-				if (!row)
-					row = ft_lstnew(NULL, ft_atoi(ft_strcdup(line, c)));
-				else
-					ft_lstaddend(row, ft_lstnew(NULL, ft_atoi(ft_strcdup(line, c))));
-			}
-			line += ft_strclen(line, c);
-			if (!arr)
-				arr = ft_lstnew(row, j);
-			else
-				ft_lstaddend(arr, ft_lstnew(row, j);
-			j++;
-		}
-		i++;
+		if (count == 0)
+			len = (ft_strlen(line) / 2) - 1;
+		tmp = str;
+		str = ft_strjoin(tmp, line);
+		free(tmp);
+		count++;
 	}
+	ft_poparr(str, vlst, count, len);
 	return (arr);
+}
+
+// int	*list_arr(t_list *arr)
+// {
+
+// }
+
+int main(int argc, char **argv)
+{
+	t_arrlst *arr;
+	int i;
+
+	if (argc == 2)
+	{
+		i = 0;
+		arr = read_map(argv[1]);
+		while (i < 10)
+		{
+			ft_putendl(*(arr->arr));
+			arr = arr->next;
+			i++;
+		}
+	}
 }
