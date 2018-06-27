@@ -11,96 +11,80 @@
 /* ************************************************************************** */
 
 #include <fcntl.h>
-#include "./libft/includes/libft.h"
 #include "fdf.h"
+#include <stdio.h>
 
-int ft_lstlen(t_list **alst)
+void ft_popvarr(char *str, int row, int col)
 {
-	t_list	*tmp;
-	int		i;
-	tmp = *alst;
+	char		**arr;
+	int			i;
+	int			j;
+	int			k;
+	t_vertex	ver_arr[row][col];
 
-	while (tmp)
-	{
-		tmp = tmp->next;
-		i++;
-	}
-	return (i);
-}
-
-void ft_poparr(char *str, t_vlst **vlst, int row, int col)
-{
-	char **arr;
-	int i;
-	int j;
-	int k;
-
-	arr = ft_strsplit(str);
-	vlst = (t_vlst **)malloc(sizeof(t_vlst*) * row);
-	*vlst = (t_vlst *)malloc(sizeof(t_vlst) *	col);
+	arr = ft_strsplit(str, ' ');
 	k = 0;
 	i = 0;
-	while (i < col)
+	while (i < row)
 	{
 		j = 0;
-		while (j < row && arr[k])
+		while (j < col && arr[k])
 		{
-			vlst[i][j] = 
+			ver_arr[i][j] = new_vertex(j/2, i/2, (double)ft_atoi(arr[k]));
+			printf("Position:[%d][%d] x:%f y:%f z:%f \n", i, j, ver_arr[i][j].original->x, ver_arr[i][j].original->y, ver_arr[i][j].original->z);
+			j++;
+			k++;
 		}
+		i++;
 	}
+	free (arr);
+	free (str);
+	//draw(ver_arr, i, j);
 }
 
-t_vlst **read_map(char *argv)
+void read_map(fd)
 {
-	int		fd;
 	char	*line;
 	int		count;
 	int		len;
 	char	*str;
 	char	*tmp;
-	t_vlst	**vlst;
 
-	if (!argv)
-		return (NULL);
-	fd = open(argv, O_RDONLY);
 	line = (char *)malloc(sizeof(char));
 	if (!line)
-		return (NULL);
-	vlst = NULL;
+		return ;
 	str = ft_strnew(1);
 	count = 0;
 	while (get_next_line(fd, &line))
 	{
 		if (count == 0)
-			len = (ft_strlen(line) / 2) - 1;
-		tmp = str;
+			len = (ft_strlen(line) / 2) + 1;
+		tmp = ft_strjoin(str, " ");
 		str = ft_strjoin(tmp, line);
 		free(tmp);
 		count++;
 	}
-	ft_poparr(str, vlst, count, len);
-	return (arr);
+	ft_popvarr(str, count, len);
 }
 
-// int	*list_arr(t_list *arr)
-// {
+void open_map(char *argv)
+{
+	int		fd;
 
-// }
+	if (!argv)
+		return ;
+	fd = open(argv, O_RDONLY);
+	//fd check needs to be written
+	read_map(fd);
+}
 
 int main(int argc, char **argv)
 {
-	t_arrlst *arr;
 	int i;
 
 	if (argc == 2)
 	{
 		i = 0;
-		arr = read_map(argv[1]);
-		while (i < 10)
-		{
-			ft_putendl(*(arr->arr));
-			arr = arr->next;
-			i++;
-		}
+		open_map(argv[1]);
 	}
 }

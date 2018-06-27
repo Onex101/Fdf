@@ -20,12 +20,6 @@ void project(t_vertex *vertex)
 	vertex->screen.y = FOCAL_DISTANCE * vertex->aligned.y / vertex->aligned.z + YOrigin;
 }
 
-void orgin_factor(t_vector *vector, double width, double height)
-{
-	vector->x = (vector->x + 1) * (width / 2);
-	vector->y = (-vector->y * 1) * (height / 2);
-}
-
 void cube(double size)
 {
 	void **vertices;
