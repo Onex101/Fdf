@@ -11,24 +11,20 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h>
 
 void new_vector(t_vector **vector, double x, double y, double z)
 {
 	*vector = (t_vector *)malloc(sizeof(t_vector));
 	if (!*vector)
 	 	return ;
-	(*vector)->x = (x + 1) * (WIDTH / 2);
-	(*vector)->y = (-y * 1) * (HEIGHT / 2);
+	(*vector)->x = x;
+	(*vector)->y = -y;
 	(*vector)->z = z;
 }
 
 t_vertex new_vertex(double x, double y, double z)
 {
 	t_vertex vertex;
-	// vertex = (t_vertex *)malloc(sizeof(t_vertex));
-	// if (!vertex)
-	// 	return (NULL);
 	new_vector(&vertex.original, x, y, z);
 	vertex.screen = NULL;
 	vertex.aligned = NULL;

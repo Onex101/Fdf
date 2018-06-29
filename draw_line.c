@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void draw_line(t_vector vec1, t_vector vec2, t_window window)
+#include "fdf.h"
+#include <math.h>
+
+void draw_line(t_vector *vec1, t_vector *vec2)
 {
 	int dx;
 	int dy;
@@ -19,26 +22,26 @@ void draw_line(t_vector vec1, t_vector vec2, t_window window)
 	int err;
 	int m;
 
-	dx =  abs(vec2.x - vec1.x);
-	dy = -(abs(vec2.y - vec1.y));
-	sx = vec1.x < vec2.x ? 1 : -1;
-	sy = vec1.y < vec2.y ? 1 : -1;
+	dx =  fabs(vec2->x - vec1->x);
+	dy = -(fabs(vec2->y - vec1->y));
+	sx = vec1->x < vec2->x ? 1 : -1;
+	sy = vec1->y < vec2->y ? 1 : -1;
 	err = dx + dy;
 	while (1)
 	{
-		mlx_pixel_put((window->mlx), (window->win), vec1.x, vec1.y, 0xFFFFFF);
-		if (vec1.x == vec2.x && vec1.y == vec2.y) 
+		mlx_pixel_put(get_mlx(), get_window("Hello"), vec1->x, vec1->y, 0xFFFFFF);
+		if (vec1->x == vec2->x && vec1->y == vec2->y) 
 			break;
 		m = 2 * err;
 		if (m >= dy)
 		{ 
 			err += dy; 
-			vec1.x += sx; 
+			vec1->x += sx; 
 		}
 			if (m <= dx)
 		{
 			err += dx; 
-			vec1.y += sy; 
+			vec1->y += sy; 
 		}
 	}
 }

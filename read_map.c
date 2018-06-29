@@ -20,17 +20,20 @@ void ft_popvarr(char *str, int row, int col)
 	int			i;
 	int			j;
 	int			k;
-	t_vertex	ver_arr[row][col];
+	t_vertex	**ver_arr;
 
+	ver_arr = (t_vertex **)malloc(sizeof(t_vertex *) * row);
 	arr = ft_strsplit(str, ' ');
+	free (str);
 	k = 0;
 	i = 0;
 	while (i < row)
 	{
 		j = 0;
+		ver_arr[i] = (t_vertex *)malloc(sizeof(t_vertex) * col);  
 		while (j < col && arr[k])
 		{
-			ver_arr[i][j] = new_vertex(j/2, i/2, (double)ft_atoi(arr[k]));
+			ver_arr[i][j] = new_vertex(j * 10, i * 10, (double)ft_atoi(arr[k]));
 			printf("Position:[%d][%d] x:%f y:%f z:%f \n", i, j, ver_arr[i][j].original->x, ver_arr[i][j].original->y, ver_arr[i][j].original->z);
 			j++;
 			k++;
@@ -38,8 +41,7 @@ void ft_popvarr(char *str, int row, int col)
 		i++;
 	}
 	free (arr);
-	free (str);
-	//draw(ver_arr, i, j);
+	draw_grid(ver_arr, i, j);
 }
 
 void read_map(fd)
@@ -74,7 +76,6 @@ void open_map(char *argv)
 	if (!argv)
 		return ;
 	fd = open(argv, O_RDONLY);
-	//fd check needs to be written
 	read_map(fd);
 }
 
@@ -86,5 +87,6 @@ int main(int argc, char **argv)
 	{
 		i = 0;
 		open_map(argv[1]);
+		mlx_loop_hook(get_mlx(), &(draw_line), get_window("FDF"));
 	}
 }
