@@ -88,6 +88,7 @@ char				**ft_poparr(char **s_arr, int n, char const *s, char c);
 char				*ft_pull(char const *s, char c);
 int					ft_strclen(char *s, char c);
 char				*ft_strcdup(const char *str, char c);
+int					ft_chrcount(char *str, char c);
 
 t_list				*ft_lstnew(void const *content, size_t content_size);
 void				ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
