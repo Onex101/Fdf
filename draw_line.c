@@ -13,7 +13,7 @@
 #include "fdf.h"
 #include <math.h>
 
-void draw_line(t_vector *vec1, t_vector *vec2)
+void draw_line(t_line *line)
 {
 	int dx;
 	int dy;
@@ -22,26 +22,30 @@ void draw_line(t_vector *vec1, t_vector *vec2)
 	int err;
 	int m;
 
-	dx =  fabs(vec2->x - vec1->x);
-	dy = -(fabs(vec2->y - vec1->y));
-	sx = vec1->x < vec2->x ? 1 : -1;
-	sy = vec1->y < vec2->y ? 1 : -1;
+	void *window = get_window("Hello");
+
+	dx =  fabs(line->x2 - line->x2);
+	dy = -(fabs(line->y2 - line->y1));
+	sx = line->x1 < line->x2 ? 1 : -1;
+	sy = line->y1 < line->y2 ? 1 : -1;
 	err = dx + dy;
-	while (1)
+
+	ft_putendl("Before while");
+	while (line->x1 != line->x2 && line->y1 != line->y2)
 	{
-		mlx_pixel_put(get_mlx(), get_window("Hello"), vec1->x, vec1->y, 0xFFFFFF);
-		if (vec1->x == vec2->x && vec1->y == vec2->y) 
-			break;
+
+		mlx_pixel_put(get_mlx(), window, line->x1, line->y1, 0xFFFFFF);
 		m = 2 * err;
 		if (m >= dy)
 		{ 
 			err += dy; 
-			vec1->x += sx; 
+			line->x1 += sx; 
 		}
 			if (m <= dx)
 		{
 			err += dx; 
-			vec1->y += sy; 
+			line->x1 += sy; 
 		}
 	}
+	ft_putendl("After while");
 }

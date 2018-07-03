@@ -78,6 +78,7 @@ FILES		=	ft_memset.c \
 				ft_pull.c \
 				ft_strclen.c \
 				ft_strcdup.c \
+				ft_chrcount.c \
 				get_next_line.c \
 
 OBJ			= $(FILES:%.c=%.o)

@@ -38,9 +38,10 @@ typedef struct	s_window
 
 typedef struct		s_line
 {
-	t_vector	*vec1;
-	t_vector	*vec2;
-	struct t_window	*window;
+	double 		x1;
+	double		y1;
+	double 		x2;
+	double		y2;
 }					t_line;
 
 typedef struct		s_vertex
@@ -49,6 +50,8 @@ typedef struct		s_vertex
 	t_vector	*screen;
 	t_vector	*aligned;
 }					t_vertex;
+
+
 
 void		matrix_cpy(double source[4][4], double dest[4][4]);
 void		matrix_mult(double mat1[4][4], double mat2[4][4], double dest[4][4]);
@@ -65,12 +68,12 @@ t_vertex	new_vertex(double x, double y, double z);
 void		del_vector(t_vector *vector);
 void		del_vertex(t_vertex *vertex);
 
-void		draw_line(t_vector *vec1, t_vector *vec2);
+void		draw_line(t_line *line);
 
 //t_window	new_window(char *title);
 void		*get_mlx(void);
 void		*get_window(char *title);
 
-void		draw_grid(t_vertex	**ver_arr, int row, int col);
+void		draw_grid(t_vertex	**ver_arr);
 
 #endif

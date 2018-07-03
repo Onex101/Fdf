@@ -14,7 +14,7 @@
 #include "fdf.h"
 #include <stdio.h>
 
-void ft_popvarr(char *str, int row, int col)
+t_vertex **ft_popvarr(char *str, int row, int col)
 {
 	char		**arr;
 	int			i;
@@ -23,15 +23,16 @@ void ft_popvarr(char *str, int row, int col)
 	t_vertex	**ver_arr;
 
 	ft_putendl("Popvarr start");
-	ver_arr = (t_vertex **)malloc(sizeof(t_vertex *) * row);
+	ver_arr = (t_vertex **)malloc(sizeof(t_vertex *) * row + 1);
 	arr = ft_strsplit(str, ' ');
 	free (str);
 	k = 0;
 	i = 0;
+	ver_arr[row] = NULL;
 	while (i < row)
 	{
 		j = 0;
-		ver_arr[i] = (t_vertex *)malloc(sizeof(t_vertex) * col);  
+		ver_arr[i] = (t_vertex *)malloc(sizeof(t_vertex) * col + 1);  
 		while (j < col && arr[k])
 		{
 			ver_arr[i][j] = new_vertex(j * 10, i * 10, (double)ft_atoi(arr[k]));
@@ -39,14 +40,16 @@ void ft_popvarr(char *str, int row, int col)
 			j++;
 			k++;
 		}
+		ver_arr[i][j].original = NULL;
 		i++;
 	}
 	free (arr);
-	ft_putendl("popvarr end going into draw_grid");
-	draw_grid(ver_arr, i, j);
+	return (ver_arr);
+	//ft_putendl("popvarr end going into draw_grid");
+	//draw_grid(ver_arr, i, j);
 }
 
-int read_map(fd)
+t_vertex **read_map(fd)
 {
 	char	*line;
 	int		count;
@@ -58,7 +61,7 @@ int read_map(fd)
 	ft_putendl("Read map begin");
 	line = (char *)malloc(sizeof(char));
 	if (!line)
-		return (-1);
+		return (NULL);
 	str = ft_strnew(1);
 	count = 0;
 	i = 1;
@@ -78,8 +81,7 @@ int read_map(fd)
 	}
 	close(fd);
 	ft_putendl("read map done going into popvarr");
-	ft_popvarr(str, count, len);
-	return (0);
+	return(ft_popvarr(str, count, len));
 }
 
 int open_map(char *argv)
@@ -88,25 +90,30 @@ int open_map(char *argv)
 
 	if (!argv)
 		return (-1);
-	fd = open(argv, O_RDONLY);
-	read_map(fd);
+	return(fd = open(argv, O_RDONLY));
+}
+
+int loop(t_vertex **ver_arr)
+{
+	ft_putendl("Draw grid");
+	draw_grid(ver_arr);
 	return (0);
 }
 
 int main(int argc, char **argv)
 {
 	int i;
-	int		fd;
+	t_vertex **ver_arr;
 
 	if (argc == 2)
 	{
-		fd = open(argv[1], O_RDONLY);
 		i = 0;
-		//open_map(argv[1]);
-		ft_putendl("Read Map start");
-		mlx_loop (get_mlx());
-		mlx_loop_hook(get_mlx(), &read_map, (void *)&fd);
+		ver_arr = read_map(open_map(argv[1]));
+
+		//mlx_loop (get_mlx());
+		mlx_loop_hook(get_mlx(), &loop, (void *)ver_arr);
 		ft_putendl("Read map done");
+		mlx_loop(get_mlx());
 		//mlx_loop (get_mlx());
 		//mlx_loop_hook(get_mlx(), &open_map, argv[1]);
 	}

@@ -11,8 +11,8 @@
 # **************************************************************************** #
 
 NAME 		= fdf.a
-CFLAGS		= -Wall -Werror -Wextra -I./includes -c
-FILES		=
+CFLAGS		= -Wall -Werror -Wextra /usr/X11/include -g -L /usr/X11/lib -l mlx -framework OpenGL -framework AppKit -c
+FILES		=	draw.c draw_line.c vertex.c libft/libft.a
 
 OBJ		= $(FILES:%.c=%.o)
 
@@ -26,7 +26,7 @@ $(OBJ): $(FILES)
 
 so: $(NAME)
 	gcc $(CFLAGS) -fpic $(FILES)
-	gcc -shared -o libft.so $(OBJ)
+	gcc -shared -o fdf.so $(OBJ)
 
 clean:
 	rm -f $(OBJ)

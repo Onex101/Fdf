@@ -109,22 +109,22 @@ void matrix_rotate(double matrix[4][4],int ax,int ay,int az)
 	double zmat[4][4];
 
 	matrix_identity(xmat);
-	xmat[1][1] = COS(ax);
-	xmat[1][2] = SIN(ax);
-	xmat[2][1] = -SIN(ax);
-	xmat[2][2] = COS(ax);
+	xmat[1][1] = cos(ax);
+	xmat[1][2] = sin(ax);
+	xmat[2][1] = -sin(ax);
+	xmat[2][2] = cos(ax);
 
 	matrix_identity(ymat);
-	ymat[0][0]=COS(ay);
-	ymat[0][2]=-SIN(ay);
-	ymat[2][0]=SIN(ay);
-	ymat[2][2]=COS(ay);
+	ymat[0][0] = cos(ay);
+	ymat[0][2] = -sin(ay);
+	ymat[2][0] = sin(ay);
+	ymat[2][2] = cos(ay);
 
 	matrix_identity(zmat);
-	zmat[0][0]=COS(az);
-	zmat[0][1]=SIN(az);
-	zmat[1][0]=-SIN(az);
-	zmat[1][1]=COS(az);
+	zmat[0][0] = cos(az);
+	zmat[0][1] = sin(az);
+	zmat[1][0] = -sin(az);
+	zmat[1][1] = cos(az);
 
 	matrix_mult(matrix,ymat,mat1);
 	matrix_mult(mat1,xmat,mat2);
