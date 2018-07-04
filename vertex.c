@@ -17,8 +17,8 @@ void new_vector(t_vector **vector, double x, double y, double z)
 	*vector = (t_vector *)malloc(sizeof(t_vector));
 	if (!*vector)
 	 	return ;
-	(*vector)->x = x;
-	(*vector)->y = -y;
+	(*vector)->x = x + 250;
+	(*vector)->y = -y + 250;
 	(*vector)->z = z;
 }
 

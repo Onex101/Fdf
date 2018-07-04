@@ -75,13 +75,16 @@ void draw_grid(t_vertex	**ver_arr)
 				free(line);
 				ft_putendl("Drawing to side done");
 			}
-			if (ver_arr[i][j].original && ver_arr[i + 1][j].original)
+			if(ver_arr[i + 1])
 			{
-				ft_putendl("Drawing down");
-				line = new_line(ver_arr[i][j].original, ver_arr[i + 1][j].original);
-				draw_line(line);
-				free(line);
-				ft_putendl("Drawing down done");
+				if (ver_arr[i][j].original)
+				{
+					ft_putendl("Drawing down");
+					line = new_line(ver_arr[i][j].original, ver_arr[i + 1][j].original);
+					draw_line(line);
+					free(line);
+					ft_putendl("Drawing down done");
+				}
 			}
 			j++;
 		}

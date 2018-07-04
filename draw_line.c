@@ -28,12 +28,12 @@ void draw_line(t_line *line)
 	dy = -(fabs(line->y2 - line->y1));
 	sx = line->x1 < line->x2 ? 1 : -1;
 	sy = line->y1 < line->y2 ? 1 : -1;
-	err = dx + dy;
+	err = dx/2 + dy/2;
 
 	ft_putendl("Before while");
 	while (line->x1 != line->x2 && line->y1 != line->y2)
 	{
-
+		ft_putendl("Putting Pixel");
 		mlx_pixel_put(get_mlx(), window, line->x1, line->y1, 0xFFFFFF);
 		m = 2 * err;
 		if (m >= dy)
