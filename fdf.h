@@ -21,13 +21,14 @@
 #define FOCAL_DISTANCE 200
 #define WIDTH 500
 #define HEIGHT 500
+#define NAME "fdf"
 
-typedef	struct	s_vector
+typedef	struct	s_vec3
 {
 	double 		x;
 	double		y;
 	double		z;
-}				t_vector;
+}				t_vec3;
 
 typedef struct	s_window
 {
@@ -44,13 +45,11 @@ typedef struct		s_line
 	double		y2;
 }					t_line;
 
-typedef struct		s_vertex
+typedef struct	s_line_list
 {
-	t_vector	*original;
-	t_vector	*screen;
-	t_vector	*aligned;
-}					t_vertex;
-
+	vector *ver_vec;
+	vector *ind_vec;
+} 				t_line_list;
 
 
 void		matrix_cpy(double source[4][4], double dest[4][4]);
@@ -61,19 +60,17 @@ void		matrix_translate(double mat[4][4], double tx, double ty, double tz);
 void		matrix_scale(double mat1[4][4], double tx, double ty, double tz);
 void		matrix_rotate(double matrix[4][4],int ax,int ay,int az);
 
-void		orgin_factor(t_vector *vector);
-
-void		new_vector(t_vector **vector, double x, double y, double z);
-t_vertex	new_vertex(double x, double y, double z);
-void		del_vector(t_vector *vector);
+void		new_vertex(double x, double y, double z);
 void		del_vertex(t_vertex *vertex);
 
-void		draw_line(t_line *line);
-
-//t_window	new_window(char *title);
 void		*get_mlx(void);
 void		*get_window(char *title);
 
 void		draw_grid(t_vertex	**ver_arr);
+void		draw_line(t_line *line);
+
+t_line_list	*new_line_list(void);
+
 
 #endif
+#include "fdf.h"

@@ -45,77 +45,38 @@ t_vertex **ft_popvarr(char *str, int row, int col)
 	}
 	free (arr);
 	return (ver_arr);
-	//ft_putendl("popvarr end going into draw_grid");
-	//draw_grid(ver_arr, i, j);
 }
 
 t_vertex **read_map(fd)
 {
-	char	*line;
-	int		count;
-	int		len;
-	char	*str;
-	char	*tmp;
-	int 	i;
+	char		*line;
+	char		**str_arr;
+	t_line_list *map;
+	int			x;
+	int			y;
+	int			i;
 
 	ft_putendl("Read map begin");
+	map = new_line_list();
 	line = (char *)malloc(sizeof(char));
 	if (!line)
 		return (NULL);
-	str = ft_strnew(1);
-	count = 0;
-	i = 1;
+	x = 0;
+	y = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
-		ft_putnbr(i);
-		ft_putendl("");
-		if (count == 0)
-		{
+		i = 0;
+		if (x == 0)
 			len = ft_chrcount(line, ' ') + 1;
-			ft_putnbr(len);
-		}
-		tmp = ft_strjoin(str, " ");
-		str = ft_strjoin(tmp, line);
-		free(tmp);
-		count++;
+		str_arr = ft_strsplit(line, ' ');
+		while (str_arr[i])
+			vector_add(map->ver_vec, new_vertex(x, y, ft_atoi(str_arr[i++])));
+		ft_strclr(line);
+		free(*str_arr);
+		free(str_arr);
+		y++;
 	}
 	close(fd);
 	ft_putendl("read map done going into popvarr");
 	return(ft_popvarr(str, count, len));
-}
-
-int open_map(char *argv)
-{
-	int		fd;
-
-	if (!argv)
-		return (-1);
-	return(fd = open(argv, O_RDONLY));
-}
-
-int loop(t_vertex **ver_arr)
-{
-	ft_putendl("Draw grid");
-	draw_grid(ver_arr);
-	return (0);
-}
-
-int main(int argc, char **argv)
-{
-	int i;
-	t_vertex **ver_arr;
-
-	if (argc == 2)
-	{
-		i = 0;
-		ver_arr = read_map(open_map(argv[1]));
-
-		//mlx_loop (get_mlx());
-		mlx_loop_hook(get_mlx(), &loop, (void *)ver_arr);
-		ft_putendl("Read map done");
-		mlx_loop(get_mlx());
-		//mlx_loop (get_mlx());
-		//mlx_loop_hook(get_mlx(), &open_map, argv[1]);
-	}
-	return (1);
 }

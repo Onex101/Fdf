@@ -12,38 +12,21 @@
 
 #include "fdf.h"
 
-void new_vector(t_vector **vector, double x, double y, double z)
+t_vec3	*new_vertex(double x, double y, double z)
 {
-	*vector = (t_vector *)malloc(sizeof(t_vector));
-	if (!*vector)
-	 	return ;
-	(*vector)->x = x + 250;
-	(*vector)->y = -y + 250;
-	(*vector)->z = z;
-}
+	t_vec3 *vertex;
 
-t_vertex new_vertex(double x, double y, double z)
-{
-	t_vertex vertex;
-	new_vector(&vertex.original, x, y, z);
-	vertex.screen = NULL;
-	vertex.aligned = NULL;
+	vertex = (t_vector *)malloc(sizeof(t_vector));
+	if (!vertex)
+	 	return ;
+	vertex->x = x;
+	vertex->y = y;
+	vertex->z = z;
 	return (vertex);
 }
 
-void	del_vector(t_vector *vector)
-{
-	if (vector)
-		free(vector);
-}
-
-void	del_vertex(t_vertex *vertex)
+void	del_vertex(t_vec3 *vertex)
 {
 	if (vertex)
-	{
-		del_vector(vertex->original);
-		del_vector(vertex->screen);
-		del_vector(vertex->aligned);
 		free(vertex);
-	}
 }
