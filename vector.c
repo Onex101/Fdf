@@ -12,7 +12,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "./libft/includes/libft"
+#include "./libft/includes/libft.h"
 #include "vector.h"
 
 void vector_init(t_vector *v)
@@ -27,14 +27,15 @@ int vector_total(t_vector *v)
 	return v->total;
 }
 
-static void vector_resize(t_vector *vector, int size)
+void vector_resize(t_vector *vector, int size)
 {
-	void **new_data;
+	void **items;
 
-	new_data = f_memalloc(sizeof(void*) * size);
-	ft_memcpy(new_data, vector->data, sizeof(void*) * vector->capacity);
-	ft_memdel((void**)&vector->data);
-	vector->data = new_data;
+	if (!(items = malloc(sizeof(void*) * size)))
+		return ;
+	ft_memcpy(items, vector->items, sizeof(void*) * vector->capacity);
+	ft_memdel((void**)&vector->items);
+	vector->items = items;
 	vector->capacity *= 2;
 }
 

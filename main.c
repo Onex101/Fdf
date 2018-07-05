@@ -20,7 +20,7 @@ int	main(void)
 
 	win = get_window("fdf");
 
-	mlx_loop_hook(get_mlx(), loop, &param);
+	//mlx_loop_hook(get_mlx(), loop, &param);
 	mlx_loop (get_mlx());
 	return (0);
 }

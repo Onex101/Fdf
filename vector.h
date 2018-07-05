@@ -13,20 +13,20 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-typedef struct	vector
+typedef struct	s_vector
 {
 	void		**items;
 	int			capacity;
 	int			total;
-} 				vector;
+} 				t_vector;
 
-void		vector_init(vector *);
-int			vector_total(vector *);
-static void vector_resize(vector *, int);
-void		vector_add(vector *, void *);
-void		vector_set(vector *, int, void *);
-void		*vector_get(vector *, int);
-void		vector_delete(vector *, int);
-void		vector_free(vector *);
+void		vector_init(t_vector *);
+int			vector_total(t_vector *);
+void		vector_resize(t_vector *, int);
+void		vector_add(t_vector *, void *);
+void		vector_set(t_vector *, int, void *);
+void		*vector_get(t_vector *, int);
+void		vector_delete(t_vector *, int);
+void		vector_free(t_vector *);
 
 #endif
