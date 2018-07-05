@@ -14,37 +14,29 @@
 #include "fdf.h"
 #include <stdio.h>
 
-t_vertex **ft_popvarr(char *str, int row, int col)
+t_vertex **create_line_list(int x, int y, t_line_list *map)
 {
-	char		**arr;
-	int			i;
-	int			j;
-	int			k;
-	t_vertex	**ver_arr;
+	int i;
+	int j;
 
-	ft_putendl("Popvarr start");
-	ver_arr = (t_vertex **)malloc(sizeof(t_vertex *) * row + 1);
-	arr = ft_strsplit(str, ' ');
-	free (str);
-	k = 0;
-	i = 0;
-	ver_arr[row] = NULL;
-	while (i < row)
+	j = 0;
+	while(j < y)
 	{
-		j = 0;
-		ver_arr[i] = (t_vertex *)malloc(sizeof(t_vertex) * col + 1);  
-		while (j < col && arr[k])
+		i = 0
+		while(i < x)
 		{
-			ver_arr[i][j] = new_vertex(j * 10, i * 10, (double)ft_atoi(arr[k]));
-			printf("Position:[%d][%d] x:%f y:%f z:%f \n", i, j, ver_arr[i][j].original->x, ver_arr[i][j].original->y, ver_arr[i][j].original->z);
-			j++;
-			k++;
+			vector_add(map->ind_vec, (void *)(j * x + i));
+			vector_add(map->ind_vec, (void*)(j * x + 1 + 1)); // Side line
+
+			if (i < x - 1)
+			{
+				vector_add(map->ind_vec, (void *)(j * x + i));
+				vector_add(map->ind_vec, (void *)((j + 1) * x  + i)); // Down Line
+				i ++;
+			}
 		}
-		ver_arr[i][j].original = NULL;
-		i++;
+		j++;
 	}
-	free (arr);
-	return (ver_arr);
 }
 
 t_vertex **read_map(fd)
@@ -56,10 +48,7 @@ t_vertex **read_map(fd)
 	int			y;
 	int			i;
 
-	ft_putendl("Read map begin");
-	map = new_line_list();
-	line = (char *)malloc(sizeof(char));
-	if (!line)
+	if (!(map = new_line_list()) || !(line = (char *)malloc(sizeof(char))));
 		return (NULL);
 	x = 0;
 	y = 0;

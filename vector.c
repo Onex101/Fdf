@@ -24,19 +24,21 @@ void vector_init(t_vector *v)
 
 int vector_total(t_vector *v)
 {
-	return v->total;
+	return (v->total);
 }
 
-void vector_resize(t_vector *vector, int size)
+void vector_resize(t_vector *v, int capacity)
 {
 	void **items;
 
-	if (!(items = malloc(sizeof(void*) * size)))
-		return ;
-	ft_memcpy(items, vector->items, sizeof(void*) * vector->capacity);
-	ft_memdel((void**)&vector->items);
-	vector->items = items;
-	vector->capacity *= 2;
+	items = (void **)malloc(sizeof(void *) * capacity);
+	ft_memcpy(items, v->items, sizeof(void *) * v->capacity);
+	free(v->items);
+    if (items)
+    {
+        v->items = items;
+        v->capacity = capacity;
+    }
 }
 
 void vector_add(t_vector *v, void *item)
@@ -72,9 +74,7 @@ void vector_delete(t_vector *v, int index)
 		v->items[i + 1] = NULL;
 		i++;
 	}
-
 	v->total--;
-
 	if (v->total > 0 && v->total == v->capacity / 4)
 		vector_resize(v, v->capacity / 2);
 }
@@ -83,4 +83,3 @@ void vector_free(t_vector *v)
 {
 	free(v->items);
 }
-
