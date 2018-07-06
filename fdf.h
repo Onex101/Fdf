@@ -61,7 +61,7 @@ void		matrix_translate(double mat[4][4], double tx, double ty, double tz);
 void		matrix_scale(double mat1[4][4], double tx, double ty, double tz);
 void		matrix_rotate(double matrix[4][4],int ax,int ay,int az);
 
-void		new_vertex(double x, double y, double z);
+t_vec3		*new_vertex(double x, double y, double z);
 void		del_vertex(t_vec3 *vertex);
 
 void		*get_mlx(void);
@@ -72,5 +72,6 @@ void		draw_line(t_line *line);
 
 t_line_list	*new_line_list(void);
 
+t_line_list *read_map(int fd);
 
 #endif

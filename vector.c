@@ -17,9 +17,13 @@
 
 void vector_init(t_vector *v)
 {
-	v->capacity = 1;
+	ft_putendl("Entered init");
+	v->capacity = 4;
+	ft_putendl("Cap done");
 	v->total = 0;
+	ft_putendl("malloc");
 	v->items = malloc(sizeof(void *) * v->capacity);
+	ft_putendl("malloc done");
 }
 
 int vector_total(t_vector *v)

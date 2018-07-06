@@ -16,9 +16,9 @@ t_vec3	*new_vertex(double x, double y, double z)
 {
 	t_vec3 *vertex;
 
-	vertex = (t_vector *)malloc(sizeof(t_vector));
+	vertex = (t_vec3 *)malloc(sizeof(t_vec3));
 	if (!vertex)
-	 	return ;
+	 	return (NULL);
 	vertex->x = x;
 	vertex->y = y;
 	vertex->z = z;

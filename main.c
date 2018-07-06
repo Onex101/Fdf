@@ -11,16 +11,29 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include <stdio.h>
+#include <fcntl.h>
 
 double dim = 2; /*Dimensions of Orthogonal Box*/
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	void	*win;
-
-	win = get_window("fdf");
+	//void		*win;
+	t_line_list *map;
+	int 		i;
+	
+	if (argc == 2)
+	{
+		ft_putendl("Read Map");
+		map = read_map(open(argv[1], O_RDONLY));			
+		ft_putendl("Done Reading");
+		for (i = 0; i < vector_total(map->ver_vec); i++)
+			printf("%d ", (int)vector_get(map->ver_vec, i));
+		printf("\n");
+	}
+	//win = get_window("fdf");
 
 	//mlx_loop_hook(get_mlx(), loop, &param);
-	mlx_loop (get_mlx());
+	//mlx_loop (get_mlx());
 	return (0);
 }
