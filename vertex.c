@@ -25,6 +25,14 @@ t_vec3	*new_vertex(double x, double y, double z)
 	return (vertex);
 }
 
+t_vec3	*vertex_copy(t_vec3 *vec)
+{
+	t_vec3 *cpy;
+
+	cpy = new_vertex(vec->x, vec->y, vec->z);
+	return (cpy);
+}
+
 void	del_vertex(t_vec3 *vertex)
 {
 	if (vertex)

@@ -13,7 +13,7 @@
 #include "fdf.h"
 #include <math.h>
 
-void draw_line(t_line *line)
+void draw_line(t_point *pnt1, t_point *pnt2)
 {
 	int dx;
 	int dy;
@@ -22,30 +22,37 @@ void draw_line(t_line *line)
 	int err;
 	int m;
 
-	void *window = get_window("Hello");
-
-	dx =  fabs(line->x2 - line->x2);
-	dy = -(fabs(line->y2 - line->y1));
-	sx = line->x1 < line->x2 ? 1 : -1;
-	sy = line->y1 < line->y2 ? 1 : -1;
-	err = dx/2 + dy/2;
-
-	ft_putendl("Before while");
-	while (line->x1 != line->x2 && line->y1 != line->y2)
+	// ft_putnbr(pnt1->x);
+	// ft_putendl("");
+	// ft_putnbr(pnt1->y);
+	// ft_putendl("");
+	// ft_putnbr(pnt2->x);
+	// ft_putendl("");
+	// ft_putnbr(pnt2->y);
+	dx =  fabs(pnt2->x - pnt1->x);
+	dy = -(fabs(pnt2->y - pnt1->y));
+	sx = pnt1->x < pnt2->x ? 1 : -1;
+	sy = pnt1->y < pnt2->y ? 1 : -1;
+	err = dx + dy;
+	ft_putendl("draw_line while start");
+	while (1)
 	{
-		ft_putendl("Putting Pixel");
-		mlx_pixel_put(get_mlx(), window, line->x1, line->y1, 0xFFFFFF);
+		mlx_pixel_put(get_mlx(), get_window("Hello"), pnt1->x, pnt1->y, 0xFFFFFF);
+		if (pnt1->x == pnt2->x && pnt1->y == pnt2->y)
+		{
+			ft_putendl("draw_line end");
+			break;
+		}
 		m = 2 * err;
 		if (m >= dy)
 		{ 
 			err += dy; 
-			line->x1 += sx; 
+			pnt1->x += sx; 
 		}
 			if (m <= dx)
 		{
 			err += dx; 
-			line->x1 += sy; 
+			pnt1->y += sy; 
 		}
 	}
-	ft_putendl("After while");
 }

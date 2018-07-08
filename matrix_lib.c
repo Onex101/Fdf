@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include <math.h>
+#include "fdf.h"
 
-void	matrix_cpy(double source[4][4], double dest[4][4])
+void	matrix_cpy(t_mat *source, t_mat *dest)
 {
 	int i;
 	int j;
@@ -22,44 +23,59 @@ void	matrix_cpy(double source[4][4], double dest[4][4])
 	{
 		j = 0;
 		while (j < 4)
-			dest[i][j] = source[i][j];
+		{
+			dest->mat[i][j] = source->mat[i][j];
+			j++;
+		}
+		i++;
 	}
 }
 
-void	matrix_mult(double mat1[4][4], double mat2[4][4], double dest[4][4])
+t_mat	*matrix_mult(t_mat *mat1, t_mat *mat2)
 {
 	int i;
 	int j;
+	t_mat *ret;
 
 	i = 0;
+	ret = (t_mat *)malloc(sizeof(t_mat));
 	while (i < 4)
 	{
 		j = 0;
 		while (j < 4)
-			dest[i][j] = mat1[i][0]*mat2[0][j]+
-						 mat1[i][1]*mat2[1][j]+
-						 mat1[i][2]*mat2[2][j]+
-						 mat1[i][3]*mat2[3][j];
+		{
+			ret->mat[i][j] = 	mat1->mat[i][0]*mat2->mat[0][j]+
+						 		mat1->mat[i][1]*mat2->mat[1][j]+
+						 		mat1->mat[i][2]*mat2->mat[2][j]+
+						 		mat1->mat[i][3]*mat2->mat[3][j];
+			j++;
+		}
+		i++;
 	}
+	return (ret);
 }
 
-void	matrix_vec_mult(t_vector *source, double mat[4][4], t_vector *dest)
+t_vec3  *matrix_vec_mult(t_vec3 *source, t_mat *mat)
 {
-	dest->x =	source->x * mat[0][0]+
-				source->y * mat[1][0]+
-				source->z * mat[2][0]+
-							mat[3][0];
-	dest->y =	source->x * mat[0][1]+
-				source->y * mat[1][1]+
-				source->z * mat[2][1]+
-							mat[3][1];
-	dest->z =	source->x * mat[0][2]+
-				source->y * mat[1][2]+
-				source->z * mat[2][2]+
-							mat[3][2];
+	t_vec3 *dest;
+
+	dest = (t_vec3 *)malloc(sizeof(t_vec3));
+	dest->x =	source->x * mat->mat[0][0]+
+				source->y * mat->mat[1][0]+
+				source->z * mat->mat[2][0]+
+							mat->mat[3][0];
+	dest->y =	source->x * mat->mat[0][1]+
+				source->y * mat->mat[1][1]+
+				source->z * mat->mat[2][1]+
+							mat->mat[3][1];
+	dest->z =	source->x * mat->mat[0][2]+
+				source->y * mat->mat[1][2]+
+				source->z * mat->mat[2][2]+
+							mat->mat[3][2];
+	return (dest);
 }
 
-void	matrix_identity(double mat[4][4])
+void	matrix_identity(t_mat *mat)
 {
 	int i;
 	int j;
@@ -71,62 +87,80 @@ void	matrix_identity(double mat[4][4])
 		while (j < 4)
 		{
 			if (i == j)
-				mat[i][j] = 1;
+				mat->mat[i][j] = 1;
 			else
-				mat[i][j] = 0
+				mat->mat[i][j] = 0;
 			j++;
 		}
 		i++;
 	}
 }
 
-void	matrix_translate(double mat[4][4], double tx, double ty, double tz)
+t_mat	*matrix_translate(t_vec3 *trans)
 {
-	double tmat[4][4]
-	matrix_identity(smat);
-	tmat[3][0]=tx;
-	tmat[3][1]=ty;
-	tmat[3][2]=tz;
-	matrix_mult(matrix, tmat, mat1);
-	matrix_cpy(mat1, matrix);
+	t_mat	*ret;
+
+	ret = (t_mat *)malloc(sizeof(t_mat));
+	matrix_identity(ret);
+	ret->mat[0][3] = trans->x;
+	ret->mat[1][3] = trans->y;
+	ret->mat[2][3] = trans->z;
+	return (ret);
 }
 
-void	matrix_scale(double mat1[4][4], double tx, double ty, double tz)
+t_mat	*matrix_scale(t_vec3 *scale)
 {
-	double tmat[4][4]
-	matrix_identity(smat);
-	tmat[3][0]=tx;
-	tmat[3][1]=ty;
-	tmat[3][2]=tz;
-	matrix_mult(matrix, tmat, mat1);
-	matrix_cpy(mat1, matrix);
+	t_mat	*ret;
+
+	ret = (t_mat *)malloc(sizeof(t_mat));
+	matrix_identity(ret);
+	ret->mat[0][0] = scale->x;
+	ret->mat[1][1] = scale->y;
+	ret->mat[2][2] = scale->z;
+	return (ret);
 }
 
-void matrix_rotate(double matrix[4][4],int ax,int ay,int az)
+t_mat *matrix_rotate(t_vec3 *rot)
 {
-	double xmat[4][4];
-	double ymat[4][4];
-	double zmat[4][4];
+	t_mat *xmat;
+	t_mat *ymat;
+	t_mat *zmat;
+	t_mat *ret;
+	t_mat *tmp;
 
-	matrix_identity(xmat);
-	xmat[1][1] = cos(ax);
-	xmat[1][2] = sin(ax);
-	xmat[2][1] = -sin(ax);
-	xmat[2][2] = cos(ax);
+	matrix_identity(xmat = (t_mat *)malloc(sizeof(t_mat)));
+	xmat->mat[1][1] = cos(rot->x);
+	xmat->mat[1][2] = sin(rot->x);
+	xmat->mat[2][1] = -sin(rot->x);
+	xmat->mat[2][2] = cos(rot->x);
 
-	matrix_identity(ymat);
-	ymat[0][0] = cos(ay);
-	ymat[0][2] = -sin(ay);
-	ymat[2][0] = sin(ay);
-	ymat[2][2] = cos(ay);
+	matrix_identity(ymat = (t_mat *)malloc(sizeof(t_mat)));
+	ymat->mat[0][0] = cos(rot->y);
+	ymat->mat[0][2] = -sin(rot->y);
+	ymat->mat[2][0] = sin(rot->y);
+	ymat->mat[2][2] = cos(rot->y);
 
-	matrix_identity(zmat);
-	zmat[0][0] = cos(az);
-	zmat[0][1] = sin(az);
-	zmat[1][0] = -sin(az);
-	zmat[1][1] = cos(az);
+	matrix_identity(zmat = (t_mat *)malloc(sizeof(t_mat)));
+	zmat->mat[0][0] = cos(rot->z);
+	zmat->mat[0][1] = sin(rot->z);
+	zmat->mat[1][0] = -sin(rot->z);
+	zmat->mat[1][1] = cos(rot->z);
 
-	matrix_mult(matrix,ymat,mat1);
-	matrix_mult(mat1,xmat,mat2);
-	matrix_mult(mat2,zmat,matrix);
+	tmp = matrix_mult(xmat,ymat);
+	ret = matrix_mult(tmp, zmat);
+	free(xmat);
+	free(ymat);
+	free(tmp);
+	free(zmat);
+	return (ret);
+}
+
+t_mat *matrix_master(t_mat *rot, t_mat *scale, t_mat *trans)
+{
+	t_mat *ret;
+	t_mat *tmp;
+
+	tmp = matrix_mult(scale, trans);
+	ret = matrix_mult(tmp, rot);
+	return (ret);
 }

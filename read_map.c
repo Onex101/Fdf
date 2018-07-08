@@ -14,11 +14,11 @@
 #include "fdf.h"
 #include <stdio.h>
 
-void create_line_list(int x, int y, t_line_list *map)
+void create_line_list(size_t x, size_t y, t_line_list *map)
 {
-	int i;
-	int j;
-	int c;
+	size_t i;
+	size_t j;
+	size_t c;
 
 	j = 0;
 	while(j < y)
@@ -29,18 +29,18 @@ void create_line_list(int x, int y, t_line_list *map)
 			if (i < x - 1) // Side line
 			{
 				c = j * x + i;
-				vector_add(map->ind_vec, (void *)&(c));
+				add_array(map->ind_vec, (c));
 				c++;
-				vector_add(map->ind_vec, (void *)&(c)); 
+				add_array(map->ind_vec, (c)); 
 			}
 			if (j < y - 1) // Down Line
 			{
 				c = j * x + i;
-				vector_add(map->ind_vec, (void *)&(c));
+				add_array(map->ind_vec, (c));
 				c = (j + 1) * x + i;
-				vector_add(map->ind_vec, (void *)&(c)); 
+				add_array(map->ind_vec, (c)); 
 			}
-			i ++;
+			i++;
 		}
 		j++;
 	}
@@ -48,20 +48,18 @@ void create_line_list(int x, int y, t_line_list *map)
 
 t_line_list *read_map(int fd)
 {
-	char		*line;
-	char		**str_arr;
-	t_line_list *map;
-	int			x;
-	int			y;
-	int			i;
-	t_vec3		*v;
+	char			*line;
+	char			**str_arr;
+	t_line_list 	*map;
+	size_t			x;
+	size_t			z;
+	size_t			i;
+	t_vec3			*v;
 
-	ft_putendl("new_line_list start && line malloc");
 	if (!(map = new_line_list()) || !(line = (char *)malloc(sizeof(char))))
 		return (NULL);
 	x = 0;
-	y = 0;
-	ft_putendl("Start GNL While Loop");
+	z = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
 		i = 0;
@@ -70,15 +68,19 @@ t_line_list *read_map(int fd)
 		str_arr = ft_strsplit(line, ' ');
 		while (str_arr[i])
 		{
-			v = new_vertex(x, y, ft_atoi(str_arr[i++]));
-			vector_add(map->ver_vec, &v);
+			v = new_vertex(i, ft_atoi(str_arr[i]), z);
+			vector_add(map->ver_vec, v);
+			map->max_y = ft_atoi(str_arr[i]) > map->max_y ? ft_atoi(str_arr[i]) : map->max_y;
+			i++;
 		}
 		ft_strclr(line);
 		free(*str_arr);
 		free(str_arr);
-		y++;
+		z++;
 	}
+	map->max_z = z;
+	map->max_x = x;
 	close(fd);
-	create_line_list(x, y, map);
+	create_line_list(x, z, map);
 	return(map);
 }
