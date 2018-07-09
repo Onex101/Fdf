@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <math.h>
+#include <stdio.h>
 #include "fdf.h"
 
 void	matrix_cpy(t_mat *source, t_mat *dest)

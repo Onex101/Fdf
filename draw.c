@@ -34,14 +34,15 @@ void	*get_window(char *title)
 }
 
 
-t_point 	screen_transform(t_vec3 *v)
+t_point		screen_transform(t_vec3 *v)
 {
-	double z_scale;
 	t_point point;
 
-	z_scale = 1 / (v->z);
-	point.x = ((v->x) * z_scale + 1.0) * WIDTH/2.0;
-	point.y= (-(v->y) * z_scale + 1.0) * HEIGHT/2.0;
+	if (v->z == 0)
+		v->z = 1;
+	point.x = ((v->x) * (1 / v->z) + 1) * WIDTH/2;
+	point.y = (-(v->y) * (1 / v->z) + 1) * HEIGHT/2;
+
 	return (point);
 }
 
@@ -54,16 +55,25 @@ void		draw_map(t_line_list *map)
 	i = 0;
 	while (i < map->ind_vec->used)
 	{
-
-		p1 = screen_transform(vector_get(map->ver_vec, map->ind_vec->array[i]));
-		p2 = screen_transform(vector_get(map->ver_vec, map->ind_vec->array[i + 1]));
-		printf("p1 = %f, p2 = %f", p1.x, p2.x);
-		i += 2;
-		if (p1.x < 500 && p1.y < 500)
-			draw_line(&p1, &p2);
+		// ft_putnbr(map->ind_vec->array[i]);
+		// ft_putendl("");
+		ft_putendl("Transforming screen");
+		if (vector_get(map->ver_vec, map->ind_vec->array[i + 1]))
+		{
+			p1 = screen_transform(vector_get(map->ver_vec, map->ind_vec->array[i]));
+			p2 = screen_transform(vector_get(map->ver_vec, map->ind_vec->array[i + 1]));
+			i += 2;
+		}
+		ft_putendl("Enter draw_line");
+		ft_putnbr(p1.x);
+		ft_putendl("");
+		ft_putnbr(p1.y);
+		ft_putendl("");
+		ft_putnbr(p2.x);
+		ft_putendl("");
+		ft_putnbr(p2.y);
+		ft_putendl("");
+		draw_line(&p1, &p2);
+		ft_putendl("Draw_line done");
 	}
-	ft_putnbr(map->ind_vec->array[i]);
-	ft_putendl("");
-	ft_putnbr(i);
-	ft_putendl("");
 }

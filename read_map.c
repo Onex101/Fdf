@@ -31,7 +31,7 @@ void create_line_list(size_t x, size_t y, t_line_list *map)
 				c = j * x + i;
 				add_array(map->ind_vec, (c));
 				c++;
-				add_array(map->ind_vec, (c)); 
+				add_array(map->ind_vec, (c));
 			}
 			if (j < y - 1) // Down Line
 			{
@@ -74,7 +74,6 @@ t_line_list *read_map(int fd)
 			i++;
 		}
 		ft_strclr(line);
-		free(*str_arr);
 		free(str_arr);
 		z++;
 	}

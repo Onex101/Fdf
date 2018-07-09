@@ -29,27 +29,21 @@ void draw_line(t_point *pnt1, t_point *pnt2)
 	// ft_putnbr(pnt2->x);
 	// ft_putendl("");
 	// ft_putnbr(pnt2->y);
-	dx =  fabs(pnt2->x - pnt1->x);
-	dy = -(fabs(pnt2->y - pnt1->y));
+	dx =  abs(pnt2->x - pnt1->x);
+	dy = -(abs(pnt2->y - pnt1->y));
 	sx = pnt1->x < pnt2->x ? 1 : -1;
 	sy = pnt1->y < pnt2->y ? 1 : -1;
 	err = dx + dy;
-	ft_putendl("draw_line while start");
 	while (1)
 	{
 		mlx_pixel_put(get_mlx(), get_window("Hello"), pnt1->x, pnt1->y, 0xFFFFFF);
-		if (pnt1->x == pnt2->x && pnt1->y == pnt2->y)
-		{
-			ft_putendl("draw_line end");
-			break;
-		}
 		m = 2 * err;
 		if (m >= dy)
 		{ 
 			err += dy; 
 			pnt1->x += sx; 
 		}
-			if (m <= dx)
+		if (m <= dx)
 		{
 			err += dx; 
 			pnt1->y += sy; 

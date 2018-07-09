@@ -19,10 +19,8 @@
 #include "./libft/includes/libft.h"
 #include "vector.h"
 
-#define FOCAL_DISTANCE 200
 #define WIDTH 500
 #define HEIGHT 500
-#define NAME "fdf"
 
 typedef	struct	s_vec3
 {
@@ -40,8 +38,8 @@ typedef struct	s_window
 
 typedef struct		s_point
 {
-	double 		x;
-	double		y;
+	int			x;
+	int			y;
 }					t_point;
 
 typedef struct	s_array
