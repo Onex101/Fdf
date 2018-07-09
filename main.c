@@ -81,11 +81,11 @@ void	init_transform(t_param *param)
 	param->s.x = 1;
 	param->s.y = 1;
 	param->s.z = 1;
-	param->r.x = 0 * M_PI;
-	param->r.y = 0 * M_PI;
-	param->r.z = 0 * M_PI;
-	param->t.x = 1;
-	param->t.y = param->map->max_z * -1.5;
+	param->r.x = 0;
+	param->r.y = 0.01;
+	param->r.z = 0;
+	param->t.x = -10;
+	param->t.y = param->map->max_z * -1.0;
 	param->t.z = param->map->max_z * 1.0;
 }
 
@@ -97,7 +97,7 @@ int draw_screen(t_param *p)
 	i = 0;
 
 	ft_putendl("draw_screen");
-	trans_map = transform_map(p->map, &p->s, &p->t, &p->r);
+	trans_map = transform_map(p->map, &p->s, &p->r, &p->t);
 	ft_putendl("Trans map done");
 	mlx_clear_window(get_mlx(), get_window("Hello"));
 	draw_map(trans_map);
@@ -119,9 +119,9 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		map = read_map(open(argv[1], O_RDONLY));
-		s = new_vertex(-10, -10, -1);
-		t = new_vertex(-(map->max_x / 2.0), 0, map->max_z / 2.0);
-		r = new_vertex(0, 0, 0);
+		s = new_vertex(1, -1, 1);
+		t = new_vertex((map->max_x / 2.0), -map->max_y / 2.0, 10);
+		r = new_vertex(10, 10, 10);
 		p = (t_param *)malloc(sizeof(t_param));
 		i = 0;
 		ft_putendl("Transform map");

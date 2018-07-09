@@ -103,9 +103,9 @@ t_mat	*matrix_translate(t_vec3 *trans)
 
 	ret = (t_mat *)malloc(sizeof(t_mat));
 	matrix_identity(ret);
-	ret->mat[0][3] = trans->x;
-	ret->mat[1][3] = trans->y;
-	ret->mat[2][3] = trans->z;
+	ret->mat[3][0] = trans->x;
+	ret->mat[3][1] = trans->y;
+	ret->mat[3][2] = trans->z;
 	return (ret);
 }
 

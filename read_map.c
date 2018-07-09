@@ -52,14 +52,14 @@ t_line_list *read_map(int fd)
 	char			**str_arr;
 	t_line_list 	*map;
 	size_t			x;
-	size_t			z;
+	size_t			y;
 	size_t			i;
 	t_vec3			*v;
 
 	if (!(map = new_line_list()) || !(line = (char *)malloc(sizeof(char))))
 		return (NULL);
 	x = 0;
-	z = 0;
+	y = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
 		i = 0;
@@ -68,18 +68,18 @@ t_line_list *read_map(int fd)
 		str_arr = ft_strsplit(line, ' ');
 		while (str_arr[i])
 		{
-			v = new_vertex(i, ft_atoi(str_arr[i]), z);
+			v = new_vertex(i, y, ft_atoi(str_arr[i]));
 			vector_add(map->ver_vec, v);
-			map->max_y = ft_atoi(str_arr[i]) > map->max_y ? ft_atoi(str_arr[i]) : map->max_y;
+			map->max_z = ft_atoi(str_arr[i]) > map->max_z ? ft_atoi(str_arr[i]) : map->max_z;
 			i++;
 		}
 		ft_strclr(line);
 		free(str_arr);
-		z++;
+		y++;
 	}
-	map->max_z = z;
+	map->max_y = y;
 	map->max_x = x;
 	close(fd);
-	create_line_list(x, z, map);
+	create_line_list(x, y, map);
 	return(map);
 }

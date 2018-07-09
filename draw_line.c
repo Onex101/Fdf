@@ -37,6 +37,8 @@ void draw_line(t_point *pnt1, t_point *pnt2)
 	while (1)
 	{
 		mlx_pixel_put(get_mlx(), get_window("Hello"), pnt1->x, pnt1->y, 0xFFFFFF);
+		if (pnt1->x == pnt2->x && pnt1->y == pnt2->y)
+			break;
 		m = 2 * err;
 		if (m >= dy)
 		{ 

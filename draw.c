@@ -57,23 +57,26 @@ void		draw_map(t_line_list *map)
 	{
 		// ft_putnbr(map->ind_vec->array[i]);
 		// ft_putendl("");
-		ft_putendl("Transforming screen");
 		if (vector_get(map->ver_vec, map->ind_vec->array[i + 1]))
 		{
 			p1 = screen_transform(vector_get(map->ver_vec, map->ind_vec->array[i]));
 			p2 = screen_transform(vector_get(map->ver_vec, map->ind_vec->array[i + 1]));
 			i += 2;
 		}
-		ft_putendl("Enter draw_line");
+		// ft_putendl("Enter draw_line");
+		ft_putstr("Point x1 = ");
 		ft_putnbr(p1.x);
 		ft_putendl("");
+		ft_putstr("Point y1 = ");
 		ft_putnbr(p1.y);
 		ft_putendl("");
+		ft_putstr("Point x2 = ");
 		ft_putnbr(p2.x);
 		ft_putendl("");
+		ft_putstr("Point y1 = ");
 		ft_putnbr(p2.y);
 		ft_putendl("");
 		draw_line(&p1, &p2);
-		ft_putendl("Draw_line done");
+		//ft_putendl("Draw_line done");
 	}
 }
