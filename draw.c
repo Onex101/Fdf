@@ -40,8 +40,8 @@ t_point		screen_transform(t_vec3 *v)
 
 	if (v->z == 0)
 		v->z = 1;
-	point.x = ((v->x) * (1 / v->z) + 1) * WIDTH/2;
-	point.y = (-(v->y) * (1 / v->z) + 1) * HEIGHT/2;
+	point.x = (((v->x) / v->z) + 1) * WIDTH/2;
+	point.y = ((-(v->y)/ v->z) + 1) * HEIGHT/2;
 
 	return (point);
 }
@@ -61,8 +61,8 @@ void		draw_map(t_line_list *map)
 		{
 			p1 = screen_transform(vector_get(map->ver_vec, map->ind_vec->array[i]));
 			p2 = screen_transform(vector_get(map->ver_vec, map->ind_vec->array[i + 1]));
-			i += 2;
 		}
+		i += 2;
 		// ft_putendl("Enter draw_line");
 		ft_putstr("Point x1 = ");
 		ft_putnbr(p1.x);
@@ -73,7 +73,7 @@ void		draw_map(t_line_list *map)
 		ft_putstr("Point x2 = ");
 		ft_putnbr(p2.x);
 		ft_putendl("");
-		ft_putstr("Point y1 = ");
+		ft_putstr("Point y2 = ");
 		ft_putnbr(p2.y);
 		ft_putendl("");
 		draw_line(&p1, &p2);

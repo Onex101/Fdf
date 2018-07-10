@@ -78,15 +78,15 @@ t_line_list *transform_map(t_line_list *map, t_vec3 *scale, t_vec3 *rotate, t_ve
 
 void	init_transform(t_param *param)
 {
-	param->s.x = 1;
-	param->s.y = 1;
-	param->s.z = 1;
-	param->r.x = 0;
-	param->r.y = 0.01;
-	param->r.z = 0;
-	param->t.x = -10;
-	param->t.y = param->map->max_z * -1.0;
-	param->t.z = param->map->max_z * 1.0;
+	param->s.x = 0.1;
+	param->s.y = 0.1;
+	param->s.z = 0.1;
+	param->r.x = 1; //* M_PI;
+	param->r.y = 0;// * M_PI;
+	param->r.z = 0; //* M_PI;
+	param->t.x = -9;//param->map->max_z;// * 1.0;
+	param->t.y = 9;//-param->map->max_z * 1.0;
+	param->t.z = 0; // + Back - Forward
 }
 
 int draw_screen(t_param *p)
@@ -120,8 +120,8 @@ int	main(int argc, char **argv)
 	{
 		map = read_map(open(argv[1], O_RDONLY));
 		s = new_vertex(1, -1, 1);
-		t = new_vertex((map->max_x / 2.0), -map->max_y / 2.0, 10);
-		r = new_vertex(10, 10, 10);
+		t = new_vertex(0, 0, 20);//((map->max_x / 2.0), (map->max_y / 2.0), 0);
+		r = new_vertex(0 , 0, 0);
 		p = (t_param *)malloc(sizeof(t_param));
 		i = 0;
 		ft_putendl("Transform map");
