@@ -68,7 +68,7 @@ t_line_list *read_map(int fd)
 		str_arr = ft_strsplit(line, ' ');
 		while (str_arr[i])
 		{
-			v = new_vertex(i, y, ft_atoi(str_arr[i])/5);
+			v = new_vertex(i, y, ft_atoi(str_arr[i]));
 			vector_add(map->ver_vec, v);
 			map->max_z = ft_atoi(str_arr[i]) > map->max_z ? ft_atoi(str_arr[i]) : map->max_z;
 			i++;

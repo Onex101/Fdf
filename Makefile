@@ -10,28 +10,27 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME 		= fdf.a
-CFLAGS		= -Wall -Werror -Wextra /usr/X11/include -g -L /usr/X11/lib -l mlx -framework OpenGL -framework AppKit -c
-FILES		=	draw.c draw_line.c vertex.c libft/libft.a
+NAME = fdf
 
-OBJ		= $(FILES:%.c=%.o)
+SRC = 	main.c \
+		draw.c \
+		draw_line.c \
+		read_map.c \
+		vertex.c \
+		vector.c \
+		line_list.c \
+		matrix_lib.c \
+		
 
-all:	$(NAME)
+FLAGS = -Wall -Werror -Wextra -I /usr/X11/include -g -L /usr/X11/lib -l mlx -framework OpenGL -framework AppKit -L. libft/libft.a -I libft/includes
+# FLAGS = -Wl,--no-as-needed -Wall -Werror -Wextra -lm -I /usr/local/include -l mlx -g -lX11 -lXext -I libft/includes/ -L. /usr/local/lib/libmlx_Linux.a 
 
-$(NAME): $(OBJ)
-	ar ras $(NAME) $(OBJ)
+all: $(NAME)
 
-$(OBJ): $(FILES)
-	gcc $(CFLAGS) $(FILES)
+$(NAME):
+	gcc $(FLAGS)  $(SRC) -o $(NAME)
 
-so: $(NAME)
-	gcc $(CFLAGS) -fpic $(FILES)
-	gcc -shared -o fdf.so $(OBJ)
-
-clean:
-	rm -f $(OBJ)
-
-fclean: clean
-	rm -f $(NAME)
+fclean:
+	rm -rf $(NAME)
 
 re: fclean all
