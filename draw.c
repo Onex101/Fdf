@@ -42,7 +42,6 @@ t_point		screen_transform(t_vec3 *v)
 		v->z = 1;
 	point.x = (((v->x) / v->z) + 1) * WIDTH/2;
 	point.y = ((-(v->y)/ v->z) + 1) * HEIGHT/2;
-
 	return (point);
 }
 

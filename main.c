@@ -89,26 +89,28 @@ void	object_transform(t_param *p)
 		rotate = 0;
 	}
 	else
-		rotate += 0.001;
+		rotate += 0.01;
 	printf("%f\n", rotate);
-	p->s = *new_vertex(0.1, 0.1, 0.1); 
-	p->r = *new_vertex(0 * M_PI, 0 * M_PI, 0 * M_PI);
+	p->s = *new_vertex(0.1, 0.1, 0.1);
+	p->r = *new_vertex(0 * M_PI, rotate * M_PI, 0 * M_PI);
 	p->t = *new_vertex(0, 0, 0); 
 }
 
 int draw_screen(t_param *p)
 {
 	t_line_list	*trans_map;
-	size_t i;
-
-	i = 0;
+	int i;
 
 	ft_putendl("draw_screen");
-	//object_transform(p);
+	object_transform(p);
 	trans_map = transform_map(p->map, &p->s, &p->r, &p->t);
 	ft_putendl("Trans map done");
 	mlx_clear_window(get_mlx(), get_window("Hello"));
 	draw_map(trans_map);
+	i = 0;
+	while (i < trans_map->ver_vec->capacity)
+		free(trans_map->ver_vec->items[i++]);
+	free_array(trans_map->ind_vec);
 	free(trans_map);
 	return (0);
 }
@@ -130,6 +132,9 @@ int	main(int argc, char **argv)
 		p = (t_param *)malloc(sizeof(t_param));
 		ft_putendl("Transform map");
 		p->map = transform_map(map, s, r, t);
+		free(s);
+		free(t);
+		free(r);
 		ft_putendl("Map transformation complete");
 		mlx_loop_hook(get_mlx(), &draw_screen, p);
 		mlx_loop (get_mlx());
