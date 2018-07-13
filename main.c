@@ -25,6 +25,7 @@ t_line_list *transform_map(t_line_list *map, t_vec3 *scale, t_vec3 *rotate, t_ve
 	t_mat		*m;
 	t_line_list *new_map;
 	int			i;
+	// int 		j;
 
 	s = matrix_scale(scale);
 	t = matrix_translate(translate);
@@ -34,7 +35,7 @@ t_line_list *transform_map(t_line_list *map, t_vec3 *scale, t_vec3 *rotate, t_ve
 	free (t);
 	free (r);
 
-	//int j = 0;
+	//static int j = 0;
 	//i= 0;
 	// while (i < 4)
 	// {
@@ -59,9 +60,14 @@ t_line_list *transform_map(t_line_list *map, t_vec3 *scale, t_vec3 *rotate, t_ve
 	i = 0;
 	while (i < map->ver_vec->total)
 	{
+		// j = rand() % 1;
+		// if (j == 1)
+		// 	((t_vec3 *)(map->ver_vec->items[i]))->z *= -1;
+		// else
+		//((t_vec3 *)(map->ver_vec->items[i]))->z = rand() % 5;
 		//printf("Map: 	 x = [%f] y = [%f] z = [%f]\n", ((t_vec3 *)(map->ver_vec->items[i]))->x, ((t_vec3 *)(map->ver_vec->items[i]))->y,((t_vec3 *)(map->ver_vec->items[i]))->z);
 		vector_add(new_map->ver_vec, matrix_vec_mult(vector_get(map->ver_vec, i), m));
-		//printf("New Map: x = [%f] y = [%f] z = [%f]\n", ((t_vec3 *)(new_map->ver_vec->items[i]))->x, ((t_vec3 *)(new_map->ver_vec->items[i]))->y, ((t_vec3 *)(new_map->ver_vec->items[i]))->z);
+		printf("New Map: x = [%f] y = [%f] z = [%f]\n", ((t_vec3 *)(new_map->ver_vec->items[i]))->x, ((t_vec3 *)(new_map->ver_vec->items[i]))->y, ((t_vec3 *)(new_map->ver_vec->items[i]))->z);
 		i++;
 	}
 	i = 0;
@@ -91,24 +97,30 @@ void	object_transform(t_param *p)
 	else
 		rotate += 0.01;
 	printf("%f\n", rotate);
-	p->s = *new_vertex(0.1, 0.1, 0.1); 
-	p->r = *new_vertex(0 * M_PI, rotate * M_PI, 0 * M_PI);
-	p->t = *new_vertex(0, 0, 0); 
+	p->s = new_vertex(1, 1, 1); 
+	p->r = new_vertex(0 * M_PI, 0 * M_PI, 0 * M_PI);
+	p->t = new_vertex(0, 0, 0);
 }
 
 int draw_screen(t_param *p)
 {
 	t_line_list	*trans_map;
-	size_t i;
-
-	i = 0;
+	int i;
 
 	ft_putendl("draw_screen");
+
 	object_transform(p);
-	trans_map = transform_map(p->map, &p->s, &p->r, &p->t);
+	trans_map = transform_map(p->map, p->s, p->r, p->t);
 	ft_putendl("Trans map done");
 	mlx_clear_window(get_mlx(), get_window("Hello"));
 	draw_map(trans_map);
+	i = 0;
+	//while (i < trans_map->ver_vec->capacity)
+	//	free(trans_map->ver_vec->items);
+	free(p->s);
+	free(p->r);
+	free(p->t);
+	free_array(trans_map->ind_vec);
 	free(trans_map);
 	return (0);
 }
@@ -125,11 +137,14 @@ int	main(int argc, char **argv)
 	{
 		map = read_map(open(argv[1], O_RDONLY));
 		s = new_vertex(1, -1, 1);
-		t = new_vertex(-(map->max_x / 2.0), -(map->max_y / 2.0), 20);//((map->max_x / 2.0), (map->max_y / 2.0), 0);
+		t = new_vertex(-(map->max_x / 2.0), (map->max_y / 2.0), map->max_z * 2);
 		r = new_vertex(0 , 0, 0);
 		p = (t_param *)malloc(sizeof(t_param));
 		ft_putendl("Transform map");
 		p->map = transform_map(map, s, r, t);
+		free(s);
+		free(t);
+		free(r);
 		ft_putendl("Map transformation complete");
 		mlx_loop_hook(get_mlx(), &draw_screen, p);
 		mlx_loop (get_mlx());

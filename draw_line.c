@@ -6,7 +6,7 @@
 /*   By: xrhoda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 11:48:50 by xrhoda            #+#    #+#             */
-/*   Updated: 2018/06/25 11:49:03 by xrhoda           ###   ########.fr       */
+/*   Updated: 2018/07/13 07:44:41 by xrhoda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,6 @@ void draw_line(t_point *pnt1, t_point *pnt2)
 	int err;
 	int m;
 
-	// ft_putnbr(pnt1->x);
-	// ft_putendl("");
-	// ft_putnbr(pnt1->y);
-	// ft_putendl("");
-	// ft_putnbr(pnt2->x);
-	// ft_putendl("");
-	// ft_putnbr(pnt2->y);
 	dx =  abs(pnt2->x - pnt1->x);
 	dy = -(abs(pnt2->y - pnt1->y));
 	sx = pnt1->x < pnt2->x ? 1 : -1;

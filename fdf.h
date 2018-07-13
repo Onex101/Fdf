@@ -61,9 +61,9 @@ typedef struct	s_line_list
 typedef struct	s_param
 {
 	t_line_list *map;
-	t_vec3		s;
-	t_vec3		r;
-	t_vec3		t;
+	t_vec3		*s;
+	t_vec3		*r;
+	t_vec3		*t;
 }				t_param;
 
 typedef struct	s_mat
@@ -93,6 +93,7 @@ void 		draw_line(t_point *pnt1, t_point *pnt2);
 
 void 		init_array(t_array *a, size_t size);
 void 		add_array(t_array *a, int element);
+void		free_array(t_array *a);
 
 t_line_list	*new_line_list(void);
 

@@ -6,7 +6,7 @@
 /*   By: xrhoda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 12:46:56 by xrhoda            #+#    #+#             */
-/*   Updated: 2018/06/27 12:46:58 by xrhoda           ###   ########.fr       */
+/*   Updated: 2018/07/13 07:44:28 by xrhoda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,17 @@ void	*get_window(char *title)
 t_point		screen_transform(t_vec3 *v)
 {
 	t_point point;
-	static double flux;
-	static int done;
 
-	if (done != 1)
+	if (v->z > 1)
 	{
-		done = 1;
-		flux = 0;
+		point.x = (((v->x) / v->z) + 1) * WIDTH/2;
+		point.y = ((-(v->y)/ v->z) + 1) * HEIGHT/2;
 	}
 	else
-		flux = rand();
-	if (v->z == 0)
-		v->z = 1;
-	point.x = (((v->x) / flux) + 1) * WIDTH/2;
-	point.y = ((-(v->y)/ flux) + 1) * HEIGHT/2;
-
+	{
+		point.x = -1;
+		point.y = -1;
+	}
 	return (point);
 }
 
@@ -70,9 +66,19 @@ void		draw_map(t_line_list *map)
 		{
 			p1 = screen_transform(vector_get(map->ver_vec, map->ind_vec->array[i]));
 			p2 = screen_transform(vector_get(map->ver_vec, map->ind_vec->array[i + 1]));
+			if (p2.x == -1 && p2.y == -1)
+			{
+				p1.x = -1;
+				p1.y = -1;
+			}
+			else if (p1.x == -1 && p1.y == -1)
+			{
+				p2.x = -1;
+				p2.y = -1;
+			}
 		}
 		i += 2;
-		// ft_putendl("Enter draw_line");
+		ft_putendl("Enter draw_line");
 		ft_putstr("Point x1 = ");
 		ft_putnbr(p1.x);
 		ft_putendl("");

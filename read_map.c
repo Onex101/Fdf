@@ -68,13 +68,13 @@ t_line_list *read_map(int fd)
 		str_arr = ft_strsplit(line, ' ');
 		while (str_arr[i])
 		{
-			v = new_vertex(i, y, ft_atoi(str_arr[i]));
+			v = new_vertex(i, y, ft_atoi(str_arr[i])/2);
 			vector_add(map->ver_vec, v);
 			map->max_z = ft_atoi(str_arr[i]) > map->max_z ? ft_atoi(str_arr[i]) : map->max_z;
 			i++;
 		}
 		ft_strclr(line);
-		free(str_arr);
+		//free(str_arr); // write function to free double str array
 		y++;
 	}
 	map->max_y = y;
