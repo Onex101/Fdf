@@ -89,10 +89,10 @@ void	object_transform(t_param *p)
 		rotate = 0;
 	}
 	else
-		rotate += 0.001;
+		rotate += 0.01;
 	printf("%f\n", rotate);
 	p->s = *new_vertex(0.1, 0.1, 0.1); 
-	p->r = *new_vertex(0 * M_PI, 0 * M_PI, 0 * M_PI);
+	p->r = *new_vertex(0 * M_PI, rotate * M_PI, 0 * M_PI);
 	p->t = *new_vertex(0, 0, 0); 
 }
 
@@ -104,7 +104,7 @@ int draw_screen(t_param *p)
 	i = 0;
 
 	ft_putendl("draw_screen");
-	//object_transform(p);
+	object_transform(p);
 	trans_map = transform_map(p->map, &p->s, &p->r, &p->t);
 	ft_putendl("Trans map done");
 	mlx_clear_window(get_mlx(), get_window("Hello"));
@@ -125,7 +125,7 @@ int	main(int argc, char **argv)
 	{
 		map = read_map(open(argv[1], O_RDONLY));
 		s = new_vertex(1, -1, 1);
-		t = new_vertex(-(map->max_x / 2.0), -(map->max_y / 2.0), 50);//((map->max_x / 2.0), (map->max_y / 2.0), 0);
+		t = new_vertex(-(map->max_x / 2.0), -(map->max_y / 2.0), 20);//((map->max_x / 2.0), (map->max_y / 2.0), 0);
 		r = new_vertex(0 , 0, 0);
 		p = (t_param *)malloc(sizeof(t_param));
 		ft_putendl("Transform map");

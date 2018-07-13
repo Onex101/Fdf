@@ -37,11 +37,20 @@ void	*get_window(char *title)
 t_point		screen_transform(t_vec3 *v)
 {
 	t_point point;
+	static double flux;
+	static int done;
 
+	if (done != 1)
+	{
+		done = 1;
+		flux = 0;
+	}
+	else
+		flux = rand();
 	if (v->z == 0)
 		v->z = 1;
-	point.x = (((v->x) / v->z) + 1) * WIDTH/2;
-	point.y = ((-(v->y)/ v->z) + 1) * HEIGHT/2;
+	point.x = (((v->x) / flux) + 1) * WIDTH/2;
+	point.y = ((-(v->y)/ flux) + 1) * HEIGHT/2;
 
 	return (point);
 }
