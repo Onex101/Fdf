@@ -161,8 +161,8 @@ t_mat *matrix_master(t_mat *scale, t_mat *trans, t_mat *rot)
 	t_mat *ret;
 	t_mat *tmp;
 
-	tmp = matrix_mult(scale, trans);
-	ret = matrix_mult(tmp, rot);
+	tmp = matrix_mult(rot, trans);
+	ret = matrix_mult(tmp, scale);
 	free(tmp);
 	return (ret);
 }
