@@ -16,8 +16,8 @@
 typedef struct	s_vector
 {
 	void		**items;
-	int			capacity;
-	int			total;
+	double		capacity;
+	double		total;
 }				t_vector;
 
 void		vector_init(t_vector *);

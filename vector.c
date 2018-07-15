@@ -45,7 +45,7 @@ void vector_add(t_vector *v, void *item)
 {
 	if (v->capacity == v->total)
 		vector_resize(v, v->capacity * 2);
-	v->items[v->total++] = item;
+	v->items[(int)(v->total)++] = item;
 }
 
 void vector_set(t_vector *v, int index, void *item)

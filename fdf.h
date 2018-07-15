@@ -53,17 +53,17 @@ typedef struct	s_line_list
 {
 	t_vector	*ver_vec;
 	t_array		*ind_vec;
-	int			max_x;
-	int			max_y;
-	int			max_z;
+	double		max_x;
+	double		max_y;
+	double		max_z;
 }				t_line_list;
 
 typedef struct	s_param
 {
 	t_line_list *map;
-	t_vec3		*s;
-	t_vec3		*r;
-	t_vec3		*t;
+	t_vec3		s;
+	t_vec3		r;
+	t_vec3		t;
 }				t_param;
 
 typedef struct	s_mat
@@ -98,5 +98,11 @@ void		free_array(t_array *a);
 t_line_list	*new_line_list(void);
 
 t_line_list *read_map(int fd);
+
+int			key_hook(int keycode, t_param *p);
+int			adjust_trans(int keycode, t_param *p);
+int			adjust_scale(int keycode, t_param *p);
+int			adjust_rotate(int keycode, t_param *p);
+
 
 #endif
