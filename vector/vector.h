@@ -14,7 +14,7 @@
 #define VECTOR_H
 
 #include <stdlib.h>
-#include "../libft/includes/libft.h"
+#include "./libft/includes/libft.h"
 
 typedef struct	s_vector
 {

@@ -100,9 +100,5 @@ t_line_list	*new_line_list(void);
 t_line_list *read_map(int fd);
 
 int			key_hook(int keycode, t_param *p);
-int			adjust_trans(int keycode, t_param *p);
-int			adjust_scale(int keycode, t_param *p);
-int			adjust_rotate(int keycode, t_param *p);
-
 
 #endif
