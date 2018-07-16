@@ -37,13 +37,23 @@ void create_line_list(size_t x, size_t y, t_line_list *map)
 			{
 				c = j * x + i;
 				add_array(map->ind_vec, (c));
-				c = (j + 1) * x + i;
+				c = ((j + 1) * x) + i;
 				add_array(map->ind_vec, (c)); 
 			}
 			i++;
 		}
 		j++;
 	}
+}
+
+void free_str_arr(char **str_arr)
+{
+	int i;
+
+	i = 0;
+	while (str_arr[i])
+		free(str_arr[i++]);
+	free(str_arr);
 }
 
 t_line_list *read_map(int fd)
@@ -53,30 +63,27 @@ t_line_list *read_map(int fd)
 	t_line_list 	*map;
 	size_t			x;
 	size_t			y;
-	size_t			i;
 	t_vec3			*v;
 
 	if (!(map = new_line_list()) || !(line = (char *)malloc(sizeof(char))))
 		return (NULL);
-	x = 0;
 	y = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
-		i = 0;
-		if (x == 0)
-			x = ft_strcount(line, ' ');
+		x = 0;
 		str_arr = ft_strsplit(line, ' ');
-		while (str_arr[i])
+		while (str_arr[x])
 		{
-			v = new_vertex(i, y, ft_atoi(str_arr[i])/2);
+			v = new_vertex(x, y, ft_atoi(str_arr[x])/2);
 			vector_add(map->ver_vec, v);
-			map->max_z = ft_atoi(str_arr[i]) > map->max_z ? ft_atoi(str_arr[i]) : map->max_z;
-			i++;
+			map->max_z = ft_atoi(str_arr[x]) > map->max_z ? ft_atoi(str_arr[x]) : map->max_z;
+			x++;
 		}
 		ft_strclr(line);
-		//free(str_arr); // write function to free double str array
+		//free_str_arr(str_arr); // write function to free double str array
 		y++;
 	}
+	free(line);
 	map->max_y = y;
 	map->max_x = x;
 	close(fd);

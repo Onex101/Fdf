@@ -52,7 +52,6 @@ t_line_list *transform_map(t_line_list *map, t_vec3 *scale, t_vec3 *rotate, t_ve
 	i = 0;
 	while (i < (int)map->ind_vec->used)
 		add_array(new_map->ind_vec, map->ind_vec->array[i++]);
-	i = 0;
 	free(m);
 	return (new_map);
 }
@@ -68,13 +67,13 @@ void	object_transform(t_param *p)
 		rotate = 0;
 	}
 	else
-		rotate += 0.0001;
+		rotate += 0.1;
 	p->s.x = 1;
 	p->s.y = 1;
-	p->s.z = 0.5;
+	p->s.z = 1;
 	p->r.x = 0.3 * M_PI;
-	p->r.y = 0.1 * M_PI;
-	p->r.z = 0;
+	p->r.y = 0 * M_PI;
+	p->r.z = 0 * M_PI;
 	p->t.x = 0;
 	p->t.y = -p->map->max_y / 2;
 	p->t.z = p->map->max_y * 2; 
@@ -86,7 +85,8 @@ int draw_screen(t_param *p)
 	t_line_list	*trans_map;
 	int i;
 
-	object_transform(p); //Remove to allow loop_hook to work
+	//object_transform(p); //Remove to allow loop_hook to work
+	//printf("Parameters:\n s = %f\n r = %f\n t = %f\n", p->s.x, p->r.x, p->t.x);
 	trans_map = transform_map(p->map, &(p->s), &(p->r), &(p->t));
 	mlx_clear_window(get_mlx(), get_window("Hello"));
 	draw_map(trans_map);
@@ -137,8 +137,11 @@ int	main(int argc, char **argv)
 		p->map->max_z = map->max_z;
 		ft_putendl("Map transformation complete");
 		object_transform(p);
-		mlx_key_hook(get_window("fdf"), key_hook, &p);
+		//printf("Parameters:\n s = %f\n r = %f\n t = %f\n", p->s.x, p->r.x, p->t.x);
+		printf("Parameters for translation:\n t.x = %f\n t.y = %f\n t.z = %f\n", p->t.x, p->t.y, p->t.z);
 		mlx_loop_hook(get_mlx(), &draw_screen, p);
+		printf("Parameters for translation:\n t.x = %f\n t.y = %f\n t.z = %f\n", p->t.x, p->t.y, p->t.z);
+		mlx_key_hook(get_window("fdf"), key_hook, p);
 		mlx_loop (get_mlx());
 		ft_putendl("Map done");
 	}

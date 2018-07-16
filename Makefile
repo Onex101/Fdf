@@ -20,6 +20,7 @@ SRC = 	main.c \
 		vector.c \
 		line_list.c \
 		matrix_lib.c \
+		input.c \
 		
 
 FLAGS = -Wall -Werror -Wextra -I /usr/X11/include -g -L /usr/X11/lib -l mlx -framework OpenGL -framework AppKit -L. libft/libft.a -I libft/includes
