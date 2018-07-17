@@ -39,7 +39,6 @@ int		adjust_rotate(int keycode, t_param *p)
 	}
 	else
 		return (0);
-	//printf("Parameters:\n s.x = %f\n r.x = %f\n t.x = %f\n", p->s.x, p->r.x, p->t.x);
 	return (1);
 }
 
@@ -72,18 +71,20 @@ int		adjust_trans(int keycode, t_param *p)
 		p->t.y -= trans;
 	else
 		return (0);
-	//printf("Parameters:\n t.x = %f\n t.y = %f\n t.z = %f\n", p->t.x, p->t.y, p->t.z);
 	return (1);
 }
 
 int		key_hook(int keycode, t_param *p)
 {
+	ft_putendl("Enter key_hook");
 	if ((adjust_rotate(keycode, p) == 1))
 		;
 	else if ((adjust_scale(keycode, p) == 1))
 		;
 	else if ((adjust_trans(keycode, p) == 1))
 		;
+	if (keycode == 15)
+		object_transform(p);
 	if (keycode == 53)
 		exit(0);
 	printf("Parameters for translation:\n t.x = %f\n t.y = %f\n t.z = %f\n", p->t.x, p->t.y, p->t.z);

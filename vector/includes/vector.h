@@ -6,7 +6,7 @@
 /*   By: xrhoda <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 06:26:00 by xrhoda            #+#    #+#             */
-/*   Updated: 2018/06/27 06:26:02 by xrhoda           ###   ########.fr       */
+/*   Updated: 2018/07/17 08:35:35 by xrhoda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define VECTOR_H
 
 #include <stdlib.h>
-#include "./libft/includes/libft.h"
+#include "../../libft/includes/libft.h"
 
 typedef struct	s_vector
 {

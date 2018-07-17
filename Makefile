@@ -17,9 +17,10 @@ SRC = 	main.c \
 		draw_line.c \
 		read_map.c \
 		vertex.c \
-		vector.c \
+		./vector/vector_* \
 		line_list.c \
 		matrix_lib.c \
+		matrix_util.c \
 		input.c \
 		
 
