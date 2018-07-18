@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/vector.h"
+#include "vector.h"
 
-void vector_delete(t_vector *v, int index)
+void	vector_delete(t_vector *v, int index)
 {
 	int i;
 	if (index < 0 || index >= v->total)

@@ -14,41 +14,36 @@
 #include "fdf.h"
 #include <stdio.h>
 
-void create_line_list(size_t x, size_t y, t_line_list *map)
+void			create_line_list(size_t x, size_t y, t_line_list *map)
 {
 	size_t i;
 	size_t j;
 	size_t c;
 
-	j = 0;
-	ft_putendl("Create line list");
-	while(j < y)
+	j = -1;
+	while (++j < y)
 	{
-		i = 0;
-		while(i < x)
+		i = -1;
+		while (++i < x)
 		{
-			if (i < x - 1) // Side line
+			if (i < x - 1)
 			{
 				c = j * x + i;
 				add_array(map->ind_vec, (c));
-				c++;
-				add_array(map->ind_vec, (c));
+				add_array(map->ind_vec, (++c));
 			}
-			if (j < y - 1) // Down Line
+			if (j < y - 1)
 			{
 				c = j * x + i;
 				add_array(map->ind_vec, (c));
 				c = ((j + 1) * x) + i;
-				add_array(map->ind_vec, (c)); 
+				add_array(map->ind_vec, (c));
 			}
-			i++;
 		}
-		j++;
 	}
-	ft_putendl("Line list created");
 }
 
-void free_str_arr(char **str_arr)
+void			free_str_arr(char **str_arr)
 {
 	int i;
 
@@ -60,52 +55,62 @@ void free_str_arr(char **str_arr)
 	free(str_arr);
 }
 
-t_line_list *read_map(int fd)
+void			map_check(char *line, int *c_line)
 {
-	char			*line;
-	char			**str_arr;
-	t_line_list 	*map;
+	if (!*c_line)
+		*c_line = ft_strcount(line, ' ');
+	else if (*c_line != ft_strcount(line, ' '))
+	{
+		ft_putendl("Error: Map is not rectangular");
+		exit(0);
+	}
+}
+
+void			create_vertex_list(t_line_list *map, char *line, int y)
+{
+	char			**s;
 	size_t			x;
-	size_t			y;
 	t_vec3			*v;
 
-	ft_putendl("Read Map");
-	if (!(map = new_line_list()) || !(line = (char *)malloc(sizeof(char))))
+	x = 0;
+	s = ft_strsplit(line, ' ');
+	while (s[x])
+	{
+		v = new_vertex(x, y, ft_atoi(s[x]) / 2);
+		vector_add(map->ver_vec, v);
+		map->max_z = ft_atoi(s[x]) > map->max_z ? ft_atoi(s[x]) : map->max_z;
+		x++;
+	}
+	map->max_x = x;
+	ft_strclr(line);
+	free_str_arr(s);
+}
+
+t_line_list		*read_map(int fd)
+{
+	char			*line;
+	t_line_list		*map;
+	size_t			y;
+	int				c_line;
+
+	if (!(map = new_line_list()))
 		return (NULL);
 	y = 0;
+	c_line = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
-		x = 0;
-		//ft_putendl("Str_split");
-		str_arr = ft_strsplit(line, ' ');
-		//ft_putendl("Str_split done");
-		while (str_arr[x])
-		{
-			// ft_putendl("Str_arr at x exists");
-			// ft_putendl("Create new vertex");
-			v = new_vertex(x, y, ft_atoi(str_arr[x])/2);
-			// ft_putendl("Vertex created");
-			// ft_putendl("Vertex add");
-			vector_add(map->ver_vec, v);
-			// ft_putendl("Vertex added");
-			// ft_putendl("Get max z");
-			map->max_z = ft_atoi(str_arr[x]) > map->max_z ? ft_atoi(str_arr[x]) : map->max_z;
-			x++;
-			// ft_putendl("Loop iternation done");
-		}
-		// ft_putendl("GNL WHILE LOOP iteration done");
-		ft_strclr(line);
-		// ft_putendl("free arr");
-		free_str_arr(str_arr); // write function to free double str array
-		// ft_putendl("Free array done");
+		map_check(line, &c_line);
+		create_vertex_list(map, line, y);
 		y++;
+	}
+	if (y == 0 && c_line == 0)
+	{
+		ft_putendl("Error: File does not exist");
+		exit(0);
 	}
 	free(line);
 	map->max_y = y;
-	map->max_x = x;
 	close(fd);
-	// ft_putendl("Create line list");
-	create_line_list(x, y, map);
-	// ft_putendl("Read Map Complete");
-	return(map);
+	create_line_list(map->max_x, y, map);
+	return (map);
 }

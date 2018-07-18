@@ -37,7 +37,23 @@ t_mat	*matrix_scale(t_vec3 *scale)
 	return (ret);
 }
 
-t_mat *matrix_rotate(t_vec3 *rot)
+void	set_rot_mat(t_mat *xmat, t_mat *ymat, t_mat *zmat, t_vec3 *rot)
+{
+	xmat->mat[1][1] = cos(rot->x);
+	xmat->mat[1][2] = sin(rot->x);
+	xmat->mat[2][1] = -sin(rot->x);
+	xmat->mat[2][2] = cos(rot->x);
+	ymat->mat[0][0] = cos(rot->y);
+	ymat->mat[0][2] = -sin(rot->y);
+	ymat->mat[2][0] = sin(rot->y);
+	ymat->mat[2][2] = cos(rot->y);
+	zmat->mat[0][0] = cos(rot->z);
+	zmat->mat[0][1] = sin(rot->z);
+	zmat->mat[1][0] = -sin(rot->z);
+	zmat->mat[1][1] = cos(rot->z);
+}
+
+t_mat	*matrix_rotate(t_vec3 *rot)
 {
 	t_mat *xmat;
 	t_mat *ymat;
@@ -46,24 +62,10 @@ t_mat *matrix_rotate(t_vec3 *rot)
 	t_mat *tmp;
 
 	matrix_identity(xmat = (t_mat *)malloc(sizeof(t_mat)));
-	xmat->mat[1][1] = cos(rot->x);
-	xmat->mat[1][2] = sin(rot->x);
-	xmat->mat[2][1] = -sin(rot->x);
-	xmat->mat[2][2] = cos(rot->x);
-
 	matrix_identity(ymat = (t_mat *)malloc(sizeof(t_mat)));
-	ymat->mat[0][0] = cos(rot->y);
-	ymat->mat[0][2] = -sin(rot->y);
-	ymat->mat[2][0] = sin(rot->y);
-	ymat->mat[2][2] = cos(rot->y);
-
 	matrix_identity(zmat = (t_mat *)malloc(sizeof(t_mat)));
-	zmat->mat[0][0] = cos(rot->z);
-	zmat->mat[0][1] = sin(rot->z);
-	zmat->mat[1][0] = -sin(rot->z);
-	zmat->mat[1][1] = cos(rot->z);
-
-	tmp = matrix_mult(xmat,ymat);
+	set_rot_mat(xmat, ymat, zmat, rot);
+	tmp = matrix_mult(xmat, ymat);
 	ret = matrix_mult(tmp, zmat);
 	free(xmat);
 	free(ymat);

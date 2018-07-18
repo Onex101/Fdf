@@ -8,18 +8,18 @@
 /*   Created: 2018/07/09 08:10:22 by xrhoda            #+#    #+#             */
 /*   Updated: 2018/07/09 08:10:27 by xrhoda           ###   ########.fr       */
 /*                                                                            */
-/* ********************************************************************	****** */
+/* ************************************************************************** */
 
 #include "fdf.h"
 
-void init_array(t_array *a, size_t size)
+void			init_array(t_array *a, size_t size)
 {
-  a->array = (int *)malloc(size * sizeof(int));
-  a->used = 0;
-  a->size = size;
+	a->array = (int *)malloc(sizeof(int) * size);
+	a->used = 0;
+	a->size = size;
 }
 
-void free_array(t_array *a)
+void			free_array(t_array *a)
 {
 	a->array = NULL;
 	a->used = 0;
@@ -27,10 +27,10 @@ void free_array(t_array *a)
 	free(a->array);
 }
 
-void add_array(t_array *a, int element)
+void			add_array(t_array *a, int element)
 {
-	int *tmp;
-	size_t i;
+	int		*tmp;
+	size_t	i;
 
 	if (a->used == a->size)
 	{
@@ -38,7 +38,7 @@ void add_array(t_array *a, int element)
 		if (tmp)
 		{
 			i = 0;
-			while(i < a->used)
+			while (i < a->used)
 			{
 				tmp[i] = a->array[i];
 				i++;
@@ -51,14 +51,14 @@ void add_array(t_array *a, int element)
 	a->array[a->used++] = element;
 }
 
-t_line_list	*new_line_list(void)
+t_line_list		*new_line_list(void)
 {
 	t_line_list	*line_list;
-	
+
 	line_list = (t_line_list *)malloc(sizeof(t_line_list));
-	line_list->ver_vec = (t_vector*)malloc(sizeof(t_vector));
+	line_list->ver_vec = (t_vector *)malloc(sizeof(t_vector));
 	vector_init(line_list->ver_vec);
-	line_list->ind_vec = (t_array*)malloc(sizeof(t_array));
+	line_list->ind_vec = (t_array *)malloc(sizeof(t_array));
 	init_array(line_list->ind_vec, 2);
 	return (line_list);
 }

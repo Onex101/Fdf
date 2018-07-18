@@ -11,19 +11,20 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
-char			**ft_strsplit(char const *s, char c)
+char	**ft_strsplit(char const *s, char c)
 {
-	char	**str_arr;
-	int		num_words;
+	int		size;
+	char	**ret;
 
 	if (!s)
 		return (NULL);
-	num_words = ft_strcount(s, c);
-	str_arr = (char **)malloc(sizeof(char *) * num_words);
-	if (!str_arr)
+	size = ft_strcount(s, c);
+	ret = (char **)ft_memalloc(sizeof(char *) * size + 1);
+	if (!ret)
 		return (NULL);
-	str_arr = ft_poparr(str_arr, num_words, s, c);
-	return (str_arr);
+	ret = ft_poparr(ret, s, c, size);
+	if (!ret)
+		return (NULL);
+	return (ret);
 }

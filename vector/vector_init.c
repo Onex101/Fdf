@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/vector.h"
+#include "vector.h"
 
-void vector_init(t_vector *v)
+void	vector_init(t_vector *v)
 {
 	v->capacity = 1;
 	v->total = 0;

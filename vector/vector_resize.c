@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/vector.h"
+#include "vector.h"
 
-void vector_resize(t_vector *v, int capacity)
+void	vector_resize(t_vector *v, int capacity)
 {
 	void **items;
 

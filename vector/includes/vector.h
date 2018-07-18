@@ -11,10 +11,10 @@
 /* ************************************************************************** */
 
 #ifndef VECTOR_H
-#define VECTOR_H
+# define VECTOR_H
 
-#include <stdlib.h>
-#include "../../libft/includes/libft.h"
+# include <stdlib.h>
+# include "libft.h"
 
 typedef struct	s_vector
 {
@@ -23,13 +23,13 @@ typedef struct	s_vector
 	double		total;
 }				t_vector;
 
-void		vector_init(t_vector *);
-int			vector_total(t_vector *);
-void		vector_resize(t_vector *, int);
-void		vector_add(t_vector *, void *);
-void		vector_set(t_vector *, int, void *);
-void		*vector_get(t_vector *, int);
-void		vector_delete(t_vector *, int);
-void		vector_free(t_vector *);
+void			vector_init(t_vector *v);
+int				vector_total(t_vector *v);
+void			vector_resize(t_vector *v, int i);
+void			vector_add(t_vector *v, void *pnt);
+void			vector_set(t_vector *v, int i, void *ont);
+void			*vector_get(t_vector *v, int i);
+void			vector_delete(t_vector *v, int i);
+void			vector_free(t_vector *v);
 
 #endif

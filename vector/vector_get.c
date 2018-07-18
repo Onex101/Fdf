@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/vector.h"
+#include "vector.h"
 
-void *vector_get(t_vector *v, int index)
+void	*vector_get(t_vector *v, int index)
 {
 	if (index >= 0 && index < v->total)
 	{

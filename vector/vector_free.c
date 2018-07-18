@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/vector.h"
+#include "vector.h"
 
 void vector_free(t_vector *v)
 {

@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/vector.h"
+#include "vector.h"
 
-int vector_total(t_vector *v)
+int	vector_total(t_vector *v)
 {
 	return (v->total);
 }

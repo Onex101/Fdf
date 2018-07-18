@@ -84,7 +84,7 @@ char				*ft_strctrim(char const *s, char c);
 int					ft_strcount(char const *s, char c);
 char				*ft_zero(void);
 int					ft_intlen(int n);
-char				**ft_poparr(char **s_arr, int n, char const *s, char c);
+char				**ft_poparr(char **r, char const *s, char c, int size);
 char				*ft_pull(char const *s, char c);
 int					ft_strclen(char *s, char c);
 char				*ft_strcdup(const char *str, char c);
