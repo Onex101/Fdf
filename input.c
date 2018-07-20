@@ -61,9 +61,9 @@ int		adjust_scale(int keycode, t_param *p)
 	else if (keycode == 121)
 		change_scale(-scale, p);
 	else if (keycode == 18)
-		p->s.z += 0.5;
+		p->s.z += 0.1;
 	else if (keycode == 19)
-		p->s.z -= 0.5;
+		p->s.z -= 0.1;
 	else
 		return (0);
 	return (1);
