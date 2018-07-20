@@ -18,5 +18,5 @@ void	*vector_get(t_vector *v, int index)
 	{
 		return (v->items[index]);
 	}
-	return NULL;
+	return (NULL);
 }

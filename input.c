@@ -37,7 +37,7 @@ int		adjust_rotate(int keycode, t_param *p)
 
 void	change_scale(double scale, t_param *p)
 {
-	int i;
+	int		i;
 	t_vec3	*tmp;
 
 	i = -1;

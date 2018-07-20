@@ -15,8 +15,9 @@
 void	vector_delete(t_vector *v, int index)
 {
 	int i;
+
 	if (index < 0 || index >= v->total)
-		return;
+		return ;
 	v->items[index] = NULL;
 	i = index;
 	while (i < v->total - 1)
