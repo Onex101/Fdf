@@ -13,6 +13,7 @@
 NAME = fdf
 
 FILES = 	main.c \
+			transform_map.c \
 			draw.c \
 			draw_line.c \
 			read_map.c \
@@ -29,8 +30,8 @@ VECT_FILES2 = $(patsubst %, ./vector/%, $(VECT_FILES1))
 
 FILES1 = $(FILES) $(VECT_FILES1)
 
-OBJ2	= $(FILES1:%.c=./obj/%.o)
-O_SWAP = $(patsubst %, ./obj/%, $(OBJ))
+OBJ2	= $(FILES:%.c=./obj/%.o)
+O_SWAP = $(patsubst %, ./vector/%, $(OBJ))
 
 CC		= gcc
 CFLAGS	= -Wall -Wextra -Werror -g
@@ -43,36 +44,42 @@ FT_LIB	= $(addprefix $(FT),libft.a)
 FT_INC	= -I ./libft/includes
 FT_LNK	= -L ./libft -l ft
 
+VECT	= ./vector/
+VECT_LIB = $(addprefix $(V_),vector.a)
 VECT_INC = -I ./vector/includes
+VECT_LINK = -L. ./vector/vector.a
+
 FDF_INC = -I ./includes
+
 INCLUDES = $(FDF_INC) $(FT_INC) $(MLX_INC) $(VECT_INC)
 
 OBJDIR	= ./obj/
 
-all: obj $(FT_LIB) $(NAME)
+all: obj $(OBJ2) $(FT_LIB) $(VECT_LIB) $(NAME)
 
 obj:
 	mkdir -p $(OBJDIR)
 
-$(OBJDIR)%.o: $(FILES)
-	$(CC) $(CFLAGS) $(MLX_INC) $(FT_INC) $(FDF_INC) -o $@ -c $<
+$(OBJDIR)%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 $(FT_LIB):
 	make -C $(FT)
 
-$(NAME): $(OBJ2)
-	$(CC) $(OBJ2) $(INCLUDES) $(MLX_LNK) $(FT_LNK) -lm -o $(NAME)
+$(VECT_LIB):
+	make -C $(VECT)
 
-$(OBJ2):
-	gcc $(FILES) $(VECT_FILES2) $(INCLUDES) -c
-	mv *.o ./obj
+$(NAME):
+	$(CC) $(OBJ2) $(INCLUDES) $(MLX_LNK) $(FT_LNK) $(VECT_LINK) $(VECT_INC) -lm -o $(NAME)
 
 clean:
 	rm -rf $(OBJDIR)
 	make -C $(FT) clean
+	make -C $(VECT) clean
 
 fclean: clean
 	rm -rf $(NAME)
 	make -C $(FT) fclean
+	make -C $(VECT) fclean
 
 re: fclean all

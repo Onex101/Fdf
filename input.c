@@ -35,15 +35,35 @@ int		adjust_rotate(int keycode, t_param *p)
 	return (1);
 }
 
+void	change_scale(double scale, t_param *p)
+{
+	int i;
+	t_vec3	*tmp;
+
+	i = -1;
+	while (++i < vector_total(p->map->ver_vec))
+	{
+		tmp = (t_vec3 *)(vector_get(p->map->ver_vec, i));
+		if (tmp->z != 0)
+			tmp->z += scale;
+	}
+}
+
 int		adjust_scale(int keycode, t_param *p)
 {
-	double scale;
+	double	scale;
+	int		i;
 
-	scale = 0.01;
+	scale = 1.01;
+	i = -1;
 	if (keycode == 116)
-		p->s.z += scale;
-	if (keycode == 121)
-		p->s.z -= scale;
+		change_scale(scale, p);
+	else if (keycode == 121)
+		change_scale(-scale, p);
+	else if (keycode == 18)
+		p->s.z += 0.5;
+	else if (keycode == 19)
+		p->s.z -= 0.5;
 	else
 		return (0);
 	return (1);

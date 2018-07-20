@@ -12,7 +12,6 @@
 
 #include <fcntl.h>
 #include "fdf.h"
-#include <stdio.h>
 
 void			create_line_list(size_t x, size_t y, t_line_list *map)
 {

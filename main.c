@@ -11,32 +11,8 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h>
 #include <fcntl.h>
 #include <math.h>
-
-t_line_list		*t_map(t_line_list *map, t_vec3 *s, t_vec3 *r, t_vec3 *t)
-{
-	t_mat		*m;
-	t_line_list *new_map;
-	int			i;
-	t_vec3		*v;
-
-	m = matrix_master(s, t, r);
-	new_map = new_line_list();
-	i = 0;
-	while (i < map->ver_vec->total)
-	{
-		v = (t_vec3 *)vector_get(map->ver_vec, i);
-		vector_add(new_map->ver_vec, matrix_vec_mult(v, m));
-		i++;
-	}
-	i = 0;
-	while (i < (int)map->ind_vec->used)
-		add_array(new_map->ind_vec, map->ind_vec->array[i++]);
-	free(m);
-	return (new_map);
-}
 
 void			object_transform(t_param *p)
 {
@@ -98,6 +74,12 @@ void			init_param(t_line_list *map, t_param *p)
 	free(t);
 }
 
+int				exit_catch(void *p)
+{
+	(void)p;
+	exit(0);
+}
+
 int				main(int argc, char **argv)
 {
 	t_line_list *map;
@@ -112,6 +94,7 @@ int				main(int argc, char **argv)
 		object_transform(p);
 		mlx_loop_hook(p->mlx, draw_screen, p);
 		mlx_key_hook(p->win, key_hook, p);
+		mlx_hook(p->win, 17, 0, exit_catch, NULL);
 		mlx_loop(p->mlx);
 	}
 	return (0);
